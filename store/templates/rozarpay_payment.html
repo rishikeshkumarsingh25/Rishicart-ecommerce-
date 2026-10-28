@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Payment | RishiCart</title>
+    <link rel="stylesheet" href="{% static 'css/flipkart.css' %}">
+    <style>
+        .fk-pay-page-wrapper {
+            max-width: 580px;
+            margin: 40px auto 60px;
+            padding: 0 12px;
+        }
+
+        .fk-pay-box {
+            background: #ffffff;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            border-radius: 2px;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+        }
+
+        .fk-pay-header {
+            background: #2874f0;
+            color: #ffffff;
+            padding: 18px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .fk-pay-header h2 {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .fk-pay-body {
+            padding: 24px;
+        }
+
+        .fk-pay-amount-box {
+            background: #f1f3f6;
+            border-radius: 2px;
+            padding: 18px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .fk-pay-amount-val {
+            font-size: 32px;
+            font-weight: 700;
+            color: #212121;
+        }
+
+        .fk-pay-details-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+
+        .fk-pay-row {
+            display: flex;
+            justify-content: space-between;
+            color: #212121;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .fk-btn-proceed-pay {
+            width: 100%;
+            background: #fb641b;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 14px 0;
+            border-radius: 2px;
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,.2);
+            text-transform: uppercase;
+            cursor: pointer;
+            border: none;
+            letter-spacing: 0.5px;
+            margin-bottom: 14px;
+        }
+
+        .fk-btn-proceed-pay:hover {
+            background: #e2540f;
+        }
+
+        .fk-btn-cancel-pay {
+            display: block;
+            text-align: center;
+            color: #2874f0;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- FLIPKART HEADER -->
+    {% include 'includes/fk_header.html' %}
+
+    <div class="fk-pay-page-wrapper">
+        <div class="fk-pay-box">
+            <div class="fk-pay-header">
+                <h2>RishiCart Payments</h2>
+                <span>Order #{{ order.id }}</span>
+            </div>
+
+            <div class="fk-pay-body">
+                <div class="fk-pay-amount-box">
+                    <div style="font-size: 13px; color: #878787; margin-bottom: 4px;">Total Payable Amount</div>
+                    <div class="fk-pay-amount-val">₹{{ total }}</div>
+                    <div style="font-size: 12px; color: #388e3c; margin-top: 4px; font-weight: 600;">✓ Free Delivery Included</div>
+                </div>
+
+                <div class="fk-pay-details-list">
+                    <div class="fk-pay-row">
+                        <span style="color: #878787;">Customer</span>
+                        <strong>{{ user.get_full_name|default:user.username }}</strong>
+                    </div>
+                    <div class="fk-pay-row">
+                        <span style="color: #878787;">Email</span>
+                        <span>{{ user.email }}</span>
+                    </div>
+                    <div class="fk-pay-row">
+                        <span style="color: #878787;">Payment Gateway</span>
+                        <strong style="color: #2874f0;">Razorpay Verified</strong>
+                    </div>
+                </div>
+
+                <button type="button" id="pay-button" class="fk-btn-proceed-pay">
+                    🔒 Pay ₹{{ total }} Securely
+                </button>
+
+                <a href="{% url 'checkout' %}" class="fk-btn-cancel-pay">
+                    ← Back to Checkout
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLIPKART FOOTER -->
+    {% include 'includes/fk_footer.html' %}
+
+    <!-- RAZORPAY CHECKOUT SCRIPT -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        var options = {
+            key: "{{ razorpay_key_id }}",
+            amount: "{{ amount }}",
+            currency: "INR",
+            name: "RishiCart",
+            description: "RishiCart Order Payment #{{ order.id }}",
+            order_id: "{{ razorpay_order_id }}",
+            prefill: {
+                name: "{{ user.get_full_name|default:user.username }}",
+                email: "{{ user.email }}"
+            },
+            theme: {
+                color: "#2874f0"
+            },
+            handler: function (response) {
+                window.location.href =
+                    "{% url 'payment_success' %}"
+                    + "?payment_id=" + encodeURIComponent(response.razorpay_payment_id)
+                    + "&order_id=" + encodeURIComponent(response.razorpay_order_id)
+                    + "&signature=" + encodeURIComponent(response.razorpay_signature);
+            },
+            modal: {
+                ondismiss: function () {
+                    console.log("Razorpay window closed");
+                }
+            }
+        };
+
+        var rzp = new Razorpay(options);
+
+        rzp.on("payment.failed", function (response) {
+            alert("Payment Failed\n\n" + response.error.description);
+        });
+
+        document.getElementById("pay-button").onclick = function (e) {
+            e.preventDefault();
+            rzp.open();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,1085 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} - Buy Online at Best Price in India | RishiCart</title>
+    <link rel="stylesheet" href="{% static 'css/flipkart.css' %}">
+    <style>
+        /* FLIPKART PRODUCT DETAIL 2-COLUMN LAYOUT */
+        .fk-detail-container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 12px 16px 30px;
+            display: grid;
+            grid-template-columns: 460px 1fr;
+            gap: 24px;
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border-radius: 2px;
+            min-height: 80vh;
+        }
+
+        /* LEFT STICKY GALLERY COLUMN */
+        .fk-gallery-col {
+            position: sticky;
+            top: 76px;
+            align-self: flex-start;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .fk-main-img-box {
+            position: relative;
+            width: 100%;
+            height: 420px;
+            border: 1px solid #f0f0f0;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .fk-main-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .fk-main-img:hover {
+            transform: scale(1.08);
+        }
+
+        .fk-detail-wishlist {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #ffffff;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #c2c2c2;
+            cursor: pointer;
+            border: 1px solid #f0f0f0;
+            transition: color 0.2s;
+        }
+
+        .fk-detail-wishlist:hover {
+            color: #ff4343;
+        }
+
+        /* FLIPKART DUAL ACTION BUTTONS */
+        .fk-action-btns-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .fk-btn-cart {
+            background: #ff9f00;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 16px 10px;
+            border-radius: 2px;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 100%;
+            border: none;
+        }
+
+        .fk-btn-cart:hover {
+            background: #e58e00;
+        }
+
+        .fk-btn-buy {
+            background: #fb641b;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 16px 10px;
+            border-radius: 2px;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 100%;
+            border: none;
+        }
+
+        .fk-btn-buy:hover {
+            background: #e2540f;
+        }
+
+        /* RIGHT DETAILS COLUMN */
+        .fk-info-col {
+            padding: 10px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .fk-detail-breadcrumbs {
+            font-size: 12px;
+            color: #878787;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .fk-detail-breadcrumbs a {
+            color: #878787;
+        }
+
+        .fk-detail-breadcrumbs a:hover {
+            color: #2874f0;
+        }
+
+        .fk-product-headline {
+            font-size: 20px;
+            font-weight: 500;
+            color: #212121;
+            line-height: 1.35;
+        }
+
+        .fk-rating-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .fk-special-price-badge {
+            color: #388e3c;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .fk-big-price-wrap {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .fk-big-price {
+            font-size: 28px;
+            font-weight: 700;
+            color: #212121;
+        }
+
+        .fk-strike-mrp {
+            font-size: 16px;
+            color: #878787;
+            text-decoration: line-through;
+        }
+
+        .fk-save-percent {
+            font-size: 16px;
+            font-weight: 700;
+            color: #388e3c;
+        }
+
+        /* OFFERS BOX */
+        .fk-offers-box {
+            background: #ffffff;
+            border-top: 1px solid #f0f0f0;
+            border-bottom: 1px solid #f0f0f0;
+            padding: 14px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .fk-offers-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #212121;
+            margin-bottom: 4px;
+        }
+
+        .fk-offer-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 13px;
+            color: #212121;
+            line-height: 1.4;
+        }
+
+        .fk-offer-tag-icon {
+            color: #388e3c;
+            font-size: 15px;
+            line-height: 1;
+        }
+
+        .fk-offer-item strong {
+            color: #212121;
+        }
+
+        /* PINCODE CHECK */
+        .fk-delivery-box {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 10px 0;
+        }
+
+        .fk-pincode-form {
+            display: flex;
+            align-items: center;
+            max-width: 320px;
+            border-bottom: 2px solid #2874f0;
+            padding-bottom: 4px;
+        }
+
+        .fk-pincode-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: #212121;
+        }
+
+        .fk-pincode-btn {
+            background: transparent;
+            color: #2874f0;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .fk-delivery-info {
+            font-size: 13px;
+            color: #212121;
+            line-height: 1.5;
+        }
+
+        /* SIZE SELECTION SECTION (FLIPKART STYLE) */
+        .fk-size-block {
+            padding: 14px 0;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .fk-size-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .fk-size-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #212121;
+        }
+
+        .fk-size-chart-trigger {
+            color: #2874f0;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .fk-size-chart-trigger:hover {
+            text-decoration: underline;
+        }
+
+        .fk-size-options {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .fk-size-btn {
+            min-width: 48px;
+            height: 42px;
+            padding: 0 14px;
+            border: 1px solid #dcdcdc;
+            border-radius: 2px;
+            background: #ffffff;
+            color: #212121;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .fk-size-btn:hover {
+            border-color: #2874f0;
+            color: #2874f0;
+        }
+
+        .fk-size-btn.selected {
+            border-color: #2874f0;
+            background: #2874f0;
+            color: #ffffff;
+            box-shadow: 0 2px 6px rgba(40, 116, 240, 0.3);
+        }
+
+        .fk-selected-size-label {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #2874f0;
+            font-weight: 600;
+        }
+
+        .fk-kids-select {
+            width: 100%;
+            max-width: 320px;
+            padding: 10px 14px;
+            border: 1px solid #dcdcdc;
+            border-radius: 2px;
+            font-size: 14px;
+            color: #212121;
+            outline: none;
+        }
+
+        /* HIGHLIGHTS & SPECS */
+        .fk-specs-block {
+            border-top: 1px solid #f0f0f0;
+            padding-top: 16px;
+        }
+
+        .fk-specs-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #212121;
+            margin-bottom: 12px;
+        }
+
+        .fk-specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .fk-specs-table tr {
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .fk-specs-key {
+            width: 180px;
+            color: #878787;
+            padding: 10px 8px 10px 0;
+            vertical-align: top;
+        }
+
+        .fk-specs-val {
+            color: #212121;
+            padding: 10px 0;
+            line-height: 1.4;
+        }
+
+        /* STOCK STATUS */
+        .fk-stock-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .fk-stock-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #388e3c;
+        }
+
+        .fk-stock-dot.out {
+            background: #d32f2f;
+        }
+
+        /* SIZE CHART POPUP MODAL */
+        .fk-modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .fk-modal-card {
+            background: #ffffff;
+            border-radius: 2px;
+            max-width: 640px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 24px;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: modalFade 0.2s ease;
+        }
+
+        @keyframes modalFade {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fk-modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            font-size: 24px;
+            line-height: 1;
+            background: transparent;
+            border: none;
+            color: #878787;
+            cursor: pointer;
+        }
+
+        .fk-chart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            font-size: 13px;
+        }
+
+        .fk-chart-table th,
+        .fk-chart-table td {
+            border: 1px solid #e0e0e0;
+            padding: 10px 12px;
+            text-align: center;
+        }
+
+        .fk-chart-table th {
+            background: #f1f3f6;
+            font-weight: 700;
+            color: #212121;
+        }
+
+        .fk-chart-table tr:nth-child(even) {
+            background: #fafafa;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .fk-detail-container {
+                grid-template-columns: 1fr;
+            }
+
+            .fk-gallery-col {
+                position: static;
+            }
+
+            .fk-main-img-box {
+                height: 320px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- FLIPKART HEADER -->
+    {% include 'includes/fk_header.html' %}
+
+    <div style="max-width: 1240px; margin: 0 auto; padding: 6px 12px 10px;">
+        <div class="fk-detail-breadcrumbs">
+            <a href="{% url 'home' %}">Home</a>
+            <span>›</span>
+            {% if product.category %}
+            <a href="{% url 'products' %}?category={{ product.category.slug }}">{{ product.category.name }}</a>
+            <span>›</span>
+            {% endif %}
+            <span style="color: #212121; font-weight: 500;">{{ product.name }}</span>
+        </div>
+    </div>
+
+    <!-- MAIN PRODUCT DETAIL 2-COLUMN VIEW -->
+    <main class="fk-detail-container">
+
+        <!-- LEFT COLUMN: IMAGE GALLERY + ACTION BUTTONS -->
+        <div class="fk-gallery-col">
+
+            <!-- MAIN IMAGE -->
+            <div class="fk-main-img-box">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="fk-main-img" id="mainProductImg">
+                {% else %}
+                <span style="font-size: 110px;">🛍️</span>
+                {% endif %}
+                <button type="button" class="fk-detail-wishlist" title="Add to Wishlist"
+                    onclick="this.classList.toggle('active')">
+                    ♥
+                </button>
+            </div>
+
+            <!-- FORM WITH ADD TO CART & BUY NOW -->
+            <form method="POST" action="{% url 'add_to_cart' product.id %}" id="addToCartForm">
+                {% csrf_token %}
+                <input type="hidden" name="selected_option" id="selectedOption" value="">
+
+                {% if product.stock > 0 %}
+                <div class="fk-action-btns-grid">
+                    <!-- ADD TO CART BUTTON (FLIPKART YELLOW-ORANGE) -->
+                    <button type="submit" class="fk-btn-cart" id="btnAddToCart">
+                        <span>🛒</span> ADD TO CART
+                    </button>
+
+                    <!-- BUY NOW BUTTON (FLIPKART ORANGE) -->
+                    <button type="button" class="fk-btn-buy" id="btnBuyNow">
+                        <span>⚡</span> BUY NOW
+                    </button>
+                </div>
+                {% else %}
+                <div
+                    style="background: #ffebee; color: #d32f2f; text-align: center; padding: 14px; font-weight: 700; border-radius: 2px;">
+                    CURRENTLY OUT OF STOCK
+                </div>
+                {% endif %}
+            </form>
+
+            <!-- ASSURED BADGE & SAFETY -->
+            <div
+                style="display: flex; align-items: center; justify-content: space-around; padding: 12px; background: #fafafa; border: 1px solid #f0f0f0; border-radius: 2px; font-size: 12px; color: #616161;">
+                <div>🛡️ 100% Authentic</div>
+                <div>🔄 7 Days Replacement</div>
+                <div>⚡ Fast BlueDart Ship</div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: PRODUCT INFORMATION -->
+        <div class="fk-info-col">
+
+            <!-- TITLE -->
+            <h1 class="fk-product-headline">
+                {{ product.name }}
+            </h1>
+
+            <!-- RATINGS & REVIEWS -->
+            <div class="fk-rating-row">
+                <div class="fk-rating-badge">
+                    4.3 <span>★</span>
+                </div>
+                <span class="fk-rating-count">1,420 Ratings & 210 Reviews</span>
+                <span class="fk-assured-pill">Assured</span>
+            </div>
+
+            <!-- PRICE AREA -->
+            <div>
+                <div class="fk-special-price-badge">Special price</div>
+                <div class="fk-big-price-wrap">
+                    <span class="fk-big-price">₹{{ product.price }}</span>
+                    <span class="fk-strike-mrp">₹{{ product.price|add:"700" }}</span>
+                    <span class="fk-save-percent">45% off</span>
+                </div>
+            </div>
+
+            <!-- AVAILABLE OFFERS (FLIPKART GREEN TAGS) -->
+            <div class="fk-offers-box">
+                <div class="fk-offers-title">Available Offers</div>
+                <div class="fk-offer-item">
+                    <span class="fk-offer-tag-icon">🏷️</span>
+                    <div><strong>Bank Offer:</strong> 5% Unlimited Cashback on Flipkart Axis Bank Credit Card. <a
+                            href="#" style="color:#2874f0; font-weight:600;">T&C</a></div>
+                </div>
+                <div class="fk-offer-item">
+                    <span class="fk-offer-tag-icon">🏷️</span>
+                    <div><strong>Special Price:</strong> Get extra 15% off on first purchase (discount already applied).
+                    </div>
+                </div>
+                <div class="fk-offer-item">
+                    <span class="fk-offer-tag-icon">🏷️</span>
+                    <div><strong>Partner Offer:</strong> Sign up for RishiCart Pay Later & get ₹100 worth gift voucher.
+                    </div>
+                </div>
+            </div>
+
+            <!-- PINCODE & DELIVERY DETAILS -->
+            <div class="fk-delivery-box">
+                <div class="fk-pincode-form">
+                    <span style="margin-right: 8px;">📍</span>
+                    <input type="text" placeholder="Enter Delivery Pincode" maxlength="6" class="fk-pincode-input"
+                        id="pincodeInput" value="800001">
+                    <button type="button" class="fk-pincode-btn" onclick="checkDeliveryPin()">Check</button>
+                </div>
+                <div class="fk-delivery-info" id="pincodeResult">
+                    Delivery by <strong>Tomorrow | Free <span
+                            style="text-decoration: line-through; color: #878787;">₹40</span></strong>
+                </div>
+            </div>
+
+            <!-- ==============================================================
+                 SIZE SELECTION (FOOTWEAR UK 6+, CLOTHING, KIDS)
+                 ============================================================== -->
+            {% if product.is_footwear %}
+            <!-- FOOTWEAR UK SIZE SELECTION (STARTING FROM UK 6) -->
+            <div class="fk-size-block">
+                <div class="fk-size-header-row">
+                    <div class="fk-size-title">Select Size (UK):</div>
+                    <button type="button" class="fk-size-chart-trigger" onclick="openModal('footwearModal')">
+                        📏 Size Chart
+                    </button>
+                </div>
+
+                <div class="fk-size-options">
+                    <button type="button" class="fk-size-btn size-option" data-size="UK 6">
+                        6</button>
+                    <button type="button" class="fk-size-btn size-option" data-size="
+                     7">
+                        7</button>
+                    <button type="button" class="fk-size-btn size-option" data-size="
+                     8">
+                        8</button>
+                    <button type="button" class="fk-size-btn size-option" data-size="
+                     9">
+                        9</button>
+                    <button type="button" class="fk-size-btn size-option" data-size="
+                     10">
+                        10</button>
+                    <button type="button" class="fk-size-btn size-option" data-size="
+                     11">
+                        11</button>
+                    <button type="button" class="fk-size-btn size-option" data-size="
+                     12"> 12</button>
+                </div>
+
+                <div id="selectedSizeText" class="fk-selected-size-label">
+                    Please select your footwear UK size
+                </div>
+            </div>
+
+            {% elif product.is_kids_wear %}
+            <!-- KIDS AGE SELECTION -->
+            <div class="fk-size-block">
+                <div class="fk-size-header-row">
+                    <div class="fk-size-title">Select Child's Age:</div>
+                    <button type="button" class="fk-size-chart-trigger" onclick="openModal('kidsModal')">
+                        📏 Size Chart
+                    </button>
+                </div>
+
+                <select id="kidsAge" class="fk-kids-select">
+                    <option value="">Choose Age</option>
+                    <option value="0-1">0–1 Year</option>
+                    <option value="1-2">1–2 Years</option>
+                    <option value="2-3">2–3 Years</option>
+                    <option value="3-4">3–4 Years</option>
+                    <option value="4-5">4–5 Years</option>
+                    <option value="5-6">5–6 Years</option>
+                    <option value="6-7">6–7 Years</option>
+                    <option value="7-8">7–8 Years</option>
+                    <option value="8-9">8–9 Years</option>
+                    <option value="9-10">9–10 Years</option>
+                    <option value="10-11">10–11 Years</option>
+                    <option value="11-12">11–12 Years</option>
+                </select>
+
+                <div id="kidsSelectedText" class="fk-selected-size-label">
+                    Please select child's age
+                </div>
+            </div>
+
+            {% elif product.is_clothing %}
+            <!-- OTHER CLOTHING SIZES -->
+            <div class="fk-size-block">
+                <div class="fk-size-header-row">
+                    <div class="fk-size-title">Select Size:</div>
+                    <button type="button" class="fk-size-chart-trigger" onclick="openModal('clothingModal')">
+                        📏 Size Chart
+                    </button>
+                </div>
+
+                <div class="fk-size-options">
+                    <button type="button" class="fk-size-btn size-option" data-size="S">S</button>
+                    <button type="button" class="fk-size-btn size-option" data-size="M">M</button>
+                    <button type="button" class="fk-size-btn size-option" data-size="L">L</button>
+                    <button type="button" class="fk-size-btn size-option" data-size="XL">XL</button>
+                    <button type="button" class="fk-size-btn size-option" data-size="XXL">XXL</button>
+                </div>
+
+                <div id="selectedSizeText" class="fk-selected-size-label">
+                    Please select a size
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- STOCK AVAILABILITY -->
+            <div style="margin: 6px 0;">
+                {% if product.stock > 0 %}
+                <span class="fk-stock-pill" style="color: #388e3c;">
+                    <span class="fk-stock-dot"></span> In Stock ({{ product.stock }} items available)
+                </span>
+                {% else %}
+                <span class="fk-stock-pill" style="color: #d32f2f;">
+                    <span class="fk-stock-dot out"></span> Out of Stock
+                </span>
+                {% endif %}
+            </div>
+
+            <!-- PRODUCT HIGHLIGHTS & SPECS -->
+            <div class="fk-specs-block">
+                <h3 class="fk-specs-title">Product Details & Specifications</h3>
+                <table class="fk-specs-table">
+                    <tr>
+                        <td class="fk-specs-key">Category</td>
+                        <td class="fk-specs-val">{{ product.category.name|default:"General" }}</td>
+                    </tr>
+                    <tr>
+                        <td class="fk-specs-key">Description</td>
+                        <td class="fk-specs-val">{{ product.description }}</td>
+                    </tr>
+                    <tr>
+                        <td class="fk-specs-key">Ideal For</td>
+                        <td class="fk-specs-val">Men, Women, Unisex</td>
+                    </tr>
+                    <tr>
+                        <td class="fk-specs-key">Courier Partner</td>
+                        <td class="fk-specs-val">BlueDart Express Air Logistics</td>
+                    </tr>
+                    <tr>
+                        <td class="fk-specs-key">Return Policy</td>
+                        <td class="fk-specs-val">7 Days Hassle-Free Replacement / Return</td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTWEAR SIZE CHART MODAL -->
+    <div id="footwearModal" class="fk-modal-backdrop" onclick="closeModalOnBackdrop(event, 'footwearModal')">
+        <div class="fk-modal-card">
+            <button type="button" class="fk-modal-close" onclick="closeModal('footwearModal')">&times;</button>
+            <h2 style="font-size: 20px; color: #212121; margin-bottom: 6px;">Footwear Size Chart (UK / India)</h2>
+            <p style="color: #878787; font-size: 13px;">Standard footwear conversion guide and foot length measurements.
+            </p>
+            <table class="fk-chart-table">
+                <thead>
+                    <tr>
+                        <th>UK / India</th>
+                        <th>US</th>
+                        <th>EU</th>
+                        <th>Foot Length (cm)</th>
+                        <th>Foot Length (in)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>6</strong></td>
+                        <td>7</td>
+                        <td>40</td>
+                        <td>24.5 - 25.0 cm</td>
+                        <td>9.8 in</td>
+                    </tr>
+                    <tr>
+                        <td><strong>7</strong></td>
+                        <td>8</td>
+                        <td>41</td>
+                        <td>25.5 cm</td>
+                        <td>10.0 in</td>
+                    </tr>
+                    <tr>
+                        <td><strong>8</strong></td>
+                        <td>9</td>
+                        <td>42</td>
+                        <td>26.5 cm</td>
+                        <td>10.4 in</td>
+                    </tr>
+                    <tr>
+                        <td><strong>9</strong></td>
+                        <td>10</td>
+                        <td>43</td>
+                        <td>27.5 cm</td>
+                        <td>10.8 in</td>
+                    </tr>
+                    <tr>
+                        <td><strong>10</strong></td>
+                        <td>11</td>
+                        <td>44</td>
+                        <td>28.5 cm</td>
+                        <td>11.2 in</td>
+                    </tr>
+                    <tr>
+                        <td><strong>11</strong></td>
+                        <td>12</td>
+                        <td>45</td>
+                        <td>29.5 cm</td>
+                        <td>11.6 in</td>
+                    </tr>
+                    <tr>
+                        <td><strong>12</strong></td>
+                        <td>13</td>
+                        <td>46</td>
+                        <td>30.5 cm</td>
+                        <td>12.0 in</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- CLOTHING SIZE CHART MODAL -->
+    <div id="clothingModal" class="fk-modal-backdrop" onclick="closeModalOnBackdrop(event, 'clothingModal')">
+        <div class="fk-modal-card">
+            <button type="button" class="fk-modal-close" onclick="closeModal('clothingModal')">&times;</button>
+            <h2 style="font-size: 20px; color: #212121; margin-bottom: 6px;">Clothing Size Chart</h2>
+            <p style="color: #878787; font-size: 13px;">Standard apparel measurements in inches.</p>
+            <table class="fk-chart-table">
+                <thead>
+                    <tr>
+                        <th>Size</th>
+                        <th>Chest (in)</th>
+                        <th>Length (in)</th>
+                        <th>Shoulder (in)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>S</strong></td>
+                        <td>36</td>
+                        <td>26</td>
+                        <td>16</td>
+                    </tr>
+                    <tr>
+                        <td><strong>M</strong></td>
+                        <td>38</td>
+                        <td>27</td>
+                        <td>17</td>
+                    </tr>
+                    <tr>
+                        <td><strong>L</strong></td>
+                        <td>40</td>
+                        <td>28</td>
+                        <td>18</td>
+                    </tr>
+                    <tr>
+                        <td><strong>XL</strong></td>
+                        <td>42</td>
+                        <td>29</td>
+                        <td>19</td>
+                    </tr>
+                    <tr>
+                        <td><strong>XXL</strong></td>
+                        <td>44</td>
+                        <td>30</td>
+                        <td>20</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- KIDS SIZE CHART MODAL -->
+    <div id="kidsModal" class="fk-modal-backdrop" onclick="closeModalOnBackdrop(event, 'kidsModal')">
+        <div class="fk-modal-card">
+            <button type="button" class="fk-modal-close" onclick="closeModal('kidsModal')">&times;</button>
+            <h2 style="font-size: 20px; color: #212121; margin-bottom: 6px;">Kids Wear Size Chart</h2>
+            <p style="color: #878787; font-size: 13px;">Measurements for kids apparel by age group.</p>
+            <table class="fk-chart-table">
+                <thead>
+                    <tr>
+                        <th>Age Group</th>
+                        <th>Height (in)</th>
+                        <th>Chest (in)</th>
+                        <th>Length (in)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>0–1 Year</td>
+                        <td>20–29</td>
+                        <td>18–20</td>
+                        <td>12–15</td>
+                    </tr>
+                    <tr>
+                        <td>1–2 Years</td>
+                        <td>29–34</td>
+                        <td>20–21</td>
+                        <td>15–17</td>
+                    </tr>
+                    <tr>
+                        <td>2–3 Years</td>
+                        <td>34–38</td>
+                        <td>21–22</td>
+                        <td>17–19</td>
+                    </tr>
+                    <tr>
+                        <td>3–4 Years</td>
+                        <td>38–41</td>
+                        <td>22–23</td>
+                        <td>19–21</td>
+                    </tr>
+                    <tr>
+                        <td>4–5 Years</td>
+                        <td>41–44</td>
+                        <td>23–24</td>
+                        <td>21–23</td>
+                    </tr>
+                    <tr>
+                        <td>6–8 Years</td>
+                        <td>46–51</td>
+                        <td>25–27</td>
+                        <td>25–29</td>
+                    </tr>
+                    <tr>
+                        <td>9–12 Years</td>
+                        <td>54–62</td>
+                        <td>29–33</td>
+                        <td>31–37</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- FLIPKART FOOTER -->
+    {% include 'includes/fk_footer.html' %}
+
+    <!-- JAVASCRIPT FOR SIZES, MODALS, CART, AND PINCODE -->
+    <script>
+        // Modal functions
+        function openModal(id) {
+            const m = document.getElementById(id);
+            if (m) m.style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            const m = document.getElementById(id);
+            if (m) m.style.display = 'none';
+        }
+
+        function closeModalOnBackdrop(event, id) {
+            if (event.target.id === id) {
+                closeModal(id);
+            }
+        }
+
+        // Pincode checker simulation
+        function checkDeliveryPin() {
+            const pin = document.getElementById('pincodeInput').value.trim();
+            const res = document.getElementById('pincodeResult');
+            if (pin.length === 6 && !isNaN(pin)) {
+                res.innerHTML = `✅ Express delivery available for <strong>${pin}</strong> by <strong>Tomorrow | Free Delivery</strong>`;
+                res.style.color = '#388e3c';
+            } else {
+                res.innerHTML = '❌ Please enter a valid 6-digit delivery pincode.';
+                res.style.color = '#d32f2f';
+            }
+        }
+
+        // Size button selection
+        const sizeButtons = document.querySelectorAll('.size-option');
+        const selectedSizeText = document.getElementById('selectedSizeText');
+        const selectedOptionInput = document.getElementById('selectedOption');
+
+        sizeButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                sizeButtons.forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+                if (selectedSizeText) {
+                    selectedSizeText.textContent = 'Selected Size: ' + this.dataset.size;
+                }
+                if (selectedOptionInput) {
+                    selectedOptionInput.value = 'Size: ' + this.dataset.size;
+                }
+            });
+        });
+
+        // Kids age selector
+        const kidsAgeSelect = document.getElementById('kidsAge');
+        const kidsSelectedText = document.getElementById('kidsSelectedText');
+        if (kidsAgeSelect) {
+            kidsAgeSelect.addEventListener('change', function () {
+                if (this.value) {
+                    kidsSelectedText.textContent = 'Selected Age: ' + this.options[this.selectedIndex].text;
+                    if (selectedOptionInput) selectedOptionInput.value = 'Age: ' + this.value;
+                } else {
+                    kidsSelectedText.textContent = "Please select child's age";
+                    if (selectedOptionInput) selectedOptionInput.value = '';
+                }
+            });
+        }
+
+        // Validate on Add to Cart / Buy Now
+        const form = document.getElementById('addToCartForm');
+        function validateSelection() {
+            if (kidsAgeSelect && !kidsAgeSelect.value) {
+                alert("Please select child's age first.");
+                kidsAgeSelect.focus();
+                return false;
+            }
+            if (sizeButtons.length > 0) {
+                const selected = document.querySelector('.size-option.selected');
+                if (!selected) {
+                    alert("Please select your size first.");
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        if (form) {
+            form.addEventListener('submit', function (e) {
+                if (!validateSelection()) {
+                    e.preventDefault();
+                }
+            });
+        }
+
+        // BUY NOW Button
+        const btnBuyNow = document.getElementById('btnBuyNow');
+        if (btnBuyNow && form) {
+            btnBuyNow.addEventListener('click', function () {
+                if (validateSelection()) {
+                    // Submit form to add to cart, and redirect will go to cart/checkout
+                    form.submit();
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

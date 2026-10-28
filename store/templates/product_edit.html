@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Product - RishiCart Dashboard</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+
+            background: #f1f5f9;
+
+            color: #111827;
+        }
+
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position: fixed;
+
+            left: 0;
+            top: 0;
+
+            width: 240px;
+            height: 100vh;
+
+            background: #111827;
+
+            padding: 24px 14px;
+
+            overflow-y: auto;
+
+            z-index: 1000;
+        }
+
+
+        .brand {
+            color: white;
+
+            font-size: 25px;
+
+            font-weight: 800;
+
+            padding: 0 15px 25px;
+
+            border-bottom: 1px solid #374151;
+
+            margin-bottom: 25px;
+        }
+
+
+        .brand span {
+            color: #38bdf8;
+        }
+
+
+        .dashboard-title {
+            color: #6b7280;
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            padding: 0 15px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .sidebar-menu a {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            color: #d1d5db;
+
+            padding: 12px 15px;
+
+            margin-bottom: 5px;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+            transition: .25s;
+        }
+
+
+        .sidebar-menu a:hover {
+            background: #1f2937;
+
+            color: white;
+        }
+
+
+        .sidebar-menu a.active {
+            background: #2563eb;
+
+            color: white;
+
+            box-shadow:
+                0 4px 12px rgba(37, 99, 235, .20);
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            margin-left: 240px;
+
+            min-height: 100vh;
+        }
+
+
+        /* =========================
+           TOPBAR
+        ========================= */
+
+        .topbar {
+            height: 72px;
+
+            background: white;
+
+            border-bottom: 1px solid #e5e7eb;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 35px;
+        }
+
+
+        .topbar h2 {
+            font-size: 20px;
+
+            color: #111827;
+        }
+
+
+        .topbar-right {
+            display: flex;
+
+            align-items: center;
+
+            gap: 20px;
+        }
+
+
+        .store-link {
+            color: #2563eb;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+
+        .store-link:hover {
+            color: #1d4ed8;
+        }
+
+
+        .topbar-avatar {
+            width: 36px;
+
+            height: 36px;
+
+            border-radius: 50%;
+
+            background: #eff6ff;
+
+            color: #2563eb;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 16px;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           CONTENT
+        ========================= */
+
+        .content {
+            padding: 35px;
+
+            max-width: 1100px;
+
+            margin: auto;
+        }
+
+
+        /* =========================
+           PAGE HEADER
+        ========================= */
+
+        .page-header {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .page-title h1 {
+            font-size: 29px;
+
+            color: #111827;
+
+            margin-bottom: 7px;
+        }
+
+
+        .page-title p {
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+
+        .back-btn {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            background: white;
+
+            border: 1px solid #d1d5db;
+
+            color: #374151;
+
+            padding: 10px 15px;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            transition: .2s;
+
+            white-space: nowrap;
+        }
+
+
+        .back-btn:hover {
+            background: #eff6ff;
+
+            border-color: #2563eb;
+
+            color: #2563eb;
+        }
+
+
+        /* =========================
+           FORM CARD
+        ========================= */
+
+        .form-card {
+            background: white;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 14px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 5px 20px rgba(15, 23, 42, .06);
+        }
+
+
+        .form-card-header {
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            padding: 22px 28px;
+
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+
+        .form-icon {
+            width: 45px;
+
+            height: 45px;
+
+            border-radius: 10px;
+
+            background: #eff6ff;
+
+            color: #2563eb;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 20px;
+        }
+
+
+        .form-card-header h2 {
+            color: #111827;
+
+            font-size: 18px;
+
+            margin-bottom: 4px;
+        }
+
+
+        .form-card-header p {
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           FORM BODY
+        ========================= */
+
+        .form-body {
+            padding: 28px;
+        }
+
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 22px;
+        }
+
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+
+        .form-group {
+            min-width: 0;
+        }
+
+
+        label {
+            display: block;
+
+            color: #374151;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+
+        .required {
+            color: #dc2626;
+        }
+
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 8px;
+
+            background: white;
+
+            color: #111827;
+
+            font-size: 14px;
+
+            font-family: inherit;
+
+            outline: none;
+
+            transition: .2s;
+        }
+
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #9ca3af;
+        }
+
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(37, 99, 235, .10);
+        }
+
+
+        textarea {
+            min-height: 145px;
+
+            resize: vertical;
+
+            line-height: 1.6;
+        }
+
+
+        .field-help {
+            display: block;
+
+            color: #94a3b8;
+
+            font-size: 11px;
+
+            margin-top: 7px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================
+           IMAGE SECTION
+        ========================= */
+
+        .image-section {
+            padding: 22px;
+
+            background: #f8fafc;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 10px;
+        }
+
+
+        .image-section-header {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .image-section-icon {
+            width: 36px;
+
+            height: 36px;
+
+            border-radius: 8px;
+
+            background: white;
+
+            border: 1px solid #e2e8f0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 16px;
+        }
+
+
+        .image-section-title {
+            color: #111827;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+
+        .image-section-subtitle {
+            color: #64748b;
+
+            font-size: 11px;
+
+            margin-top: 3px;
+        }
+
+
+        .current-image-wrapper {
+            display: flex;
+
+            align-items: center;
+
+            gap: 20px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .current-image {
+            width: 130px;
+
+            height: 130px;
+
+            object-fit: cover;
+
+            border-radius: 10px;
+
+            border: 1px solid #dbe2ea;
+
+            background: white;
+
+            box-shadow:
+                0 3px 10px rgba(15, 23, 42, .05);
+        }
+
+
+        .image-details {
+            color: #64748b;
+
+            font-size: 12px;
+
+            line-height: 1.7;
+        }
+
+
+        .image-details strong {
+            display: block;
+
+            color: #334155;
+
+            font-size: 14px;
+
+            margin-bottom: 4px;
+        }
+
+
+        .new-image {
+            padding-top: 18px;
+
+            border-top: 1px solid #e2e8f0;
+        }
+
+
+        .file-input {
+            background: white;
+
+            cursor: pointer;
+        }
+
+
+        /* =========================
+           AVAILABILITY
+        ========================= */
+
+        .availability-box {
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            margin-top: 24px;
+
+            padding: 15px 16px;
+
+            background: #f8fafc;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 9px;
+        }
+
+
+        .availability-box input {
+            width: 17px;
+
+            height: 17px;
+
+            padding: 0;
+
+            accent-color: #2563eb;
+
+            cursor: pointer;
+
+            box-shadow: none;
+        }
+
+
+        .availability-box label {
+            margin: 0;
+
+            cursor: pointer;
+
+            color: #374151;
+
+            font-size: 13px;
+        }
+
+
+        .availability-box small {
+            color: #64748b;
+
+            font-size: 11px;
+
+            margin-left: auto;
+        }
+
+
+        /* =========================
+           ACTIONS
+        ========================= */
+
+        .form-actions {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: flex-end;
+
+            gap: 10px;
+
+            margin-top: 28px;
+
+            padding-top: 24px;
+
+            border-top: 1px solid #e5e7eb;
+        }
+
+
+        .update-btn,
+        .cancel-btn {
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 12px 20px;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            transition: .2s;
+
+            cursor: pointer;
+        }
+
+
+        .update-btn {
+            border: none;
+
+            background: #2563eb;
+
+            color: white;
+        }
+
+
+        .update-btn:hover {
+            background: #1d4ed8;
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 5px 14px rgba(37, 99, 235, .20);
+        }
+
+
+        .cancel-btn {
+            background: white;
+
+            border: 1px solid #d1d5db;
+
+            color: #475569;
+        }
+
+
+        .cancel-btn:hover {
+            background: #f8fafc;
+
+            border-color: #94a3b8;
+        }
+
+
+        /* =========================
+           INFO BOX
+        ========================= */
+
+        .info-box {
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 10px;
+
+            margin-top: 20px;
+
+            padding: 14px 16px;
+
+            background: #eff6ff;
+
+            border: 1px solid #bfdbfe;
+
+            border-radius: 9px;
+
+            color: #1e40af;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+        }
+
+
+        .info-icon {
+            font-size: 16px;
+
+            flex-shrink: 0;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 850px) {
+
+            .sidebar {
+                position: relative;
+
+                width: 100%;
+
+                height: auto;
+
+                padding: 15px;
+            }
+
+
+            .brand {
+                padding-bottom: 15px;
+
+                margin-bottom: 15px;
+            }
+
+
+            .dashboard-title {
+                display: none;
+            }
+
+
+            .sidebar-menu {
+                display: flex;
+
+                flex-wrap: wrap;
+
+                gap: 5px;
+            }
+
+
+            .sidebar-menu a {
+                margin: 0;
+
+                padding: 9px 11px;
+            }
+
+
+            .main {
+                margin-left: 0;
+            }
+
+
+            .content {
+                padding: 25px 20px;
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
+            .topbar {
+                height: 65px;
+
+                padding: 0 18px;
+            }
+
+
+            .topbar h2 {
+                font-size: 17px;
+            }
+
+
+            .topbar-right {
+                gap: 10px;
+            }
+
+
+            .store-link {
+                display: none;
+            }
+
+
+            .content {
+                padding: 20px 15px;
+            }
+
+
+            .page-header {
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+
+            .page-title h1 {
+                font-size: 24px;
+            }
+
+
+            .back-btn {
+                width: 100%;
+
+                justify-content: center;
+            }
+
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .full-width {
+                grid-column: auto;
+            }
+
+
+            .form-card-header,
+            .form-body {
+                padding: 20px;
+            }
+
+
+            .current-image-wrapper {
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+
+            .availability-box {
+                align-items: flex-start;
+
+                flex-wrap: wrap;
+            }
+
+
+            .availability-box small {
+                width: 100%;
+
+                margin-left: 28px;
+            }
+
+
+            .form-actions {
+                flex-direction: column-reverse;
+            }
+
+
+            .update-btn,
+            .cancel-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+
+    <div class="brand">
+
+        Rishi<span>Cart</span>
+
+    </div>
+
+
+    <div class="dashboard-title">
+
+        Main Menu
+
+    </div>
+
+
+    <div class="sidebar-menu">
+
+
+        <a href="{% url 'dashboard' %}">
+
+            📊
+            <span>Dashboard</span>
+
+        </a>
+
+
+        <a
+            href="{% url 'dashboard_users' %}"
+        >
+
+            👥
+            <span>Users</span>
+
+        </a>
+
+
+        <a
+            href="{% url 'dashboard_products' %}"
+            class="active"
+        >
+
+            📦
+            <span>Products</span>
+
+        </a>
+
+
+        <a href="{% url 'dashboard_categories' %}">
+
+            🗂️
+            <span>Categories</span>
+
+        </a>
+
+
+        <a href="{% url 'dashboard_orders' %}">
+
+            🛒
+            <span>Orders</span>
+
+        </a>
+
+
+        <a href="{% url 'home' %}">
+
+            🌐
+            <span>Visit Store</span>
+
+        </a>
+
+
+        <a href="{% url 'logout' %}">
+
+            🚪
+            <span>Logout</span>
+
+        </a>
+
+
+    </div>
+
+
+</aside>
+
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+
+        <h2>
+            RishiCart Admin
+        </h2>
+
+
+        <div class="topbar-right">
+
+
+            <a
+                href="{% url 'home' %}"
+                class="store-link"
+            >
+
+                🌐 Visit Store →
+
+            </a>
+
+
+            <div class="topbar-avatar">
+
+                🛍
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- CONTENT -->
+
+    <div class="content">
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="page-header">
+
+
+            <div class="page-title">
+
+                <h1>
+                    Edit Product
+                </h1>
+
+                <p>
+                    Update product information, pricing,
+                    inventory and availability.
+                </p>
+
+            </div>
+
+
+            <a
+                href="{% url 'dashboard_products' %}"
+                class="back-btn"
+            >
+
+                ← Back to Products
+
+            </a>
+
+
+        </div>
+
+
+
+        <!-- FORM CARD -->
+
+        <div class="form-card">
+
+
+            <!-- CARD HEADER -->
+
+            <div class="form-card-header">
+
+
+                <div class="form-icon">
+
+                    ✏️
+
+                </div>
+
+
+                <div>
+
+                    <h2>
+                        Product Information
+                    </h2>
+
+                    <p>
+                        Make changes to the selected product.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- FORM -->
+
+            <form
+                method="POST"
+                enctype="multipart/form-data"
+            >
+
+                {% csrf_token %}
+
+
+                <div class="form-body">
+
+
+                    <div class="form-grid">
+
+
+                        <!-- CATEGORY -->
+
+                        <div class="form-group">
+
+
+                            <label for="category">
+
+                                Category
+                                <span class="required">*</span>
+
+                            </label>
+
+
+                            <select
+                                name="category"
+                                id="category"
+                                required
+                            >
+
+
+                                {% for category in categories %}
+
+                                    <option
+                                        value="{{ category.id }}"
+                                        {% if product.category.id == category.id %}
+                                            selected
+                                        {% endif %}
+                                    >
+
+                                        {{ category.name }}
+
+                                    </option>
+
+                                {% endfor %}
+
+
+                            </select>
+
+
+                            <span class="field-help">
+
+                                Select the category this product belongs to.
+
+                            </span>
+
+
+                        </div>
+
+
+
+                        <!-- PRODUCT NAME -->
+
+                        <div class="form-group">
+
+
+                            <label for="name">
+
+                                Product Name
+                                <span class="required">*</span>
+
+                            </label>
+
+
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                value="{{ product.name }}"
+                                placeholder="Enter product name"
+                                required
+                            >
+
+
+                        </div>
+
+
+
+                        <!-- SLUG -->
+
+                        <div class="form-group full-width">
+
+
+                            <label for="slug">
+
+                                Product Slug
+                                <span class="required">*</span>
+
+                            </label>
+
+
+                            <input
+                                type="text"
+                                id="slug"
+                                name="slug"
+                                value="{{ product.slug }}"
+                                placeholder="product-slug"
+                                required
+                            >
+
+
+                            <span class="field-help">
+
+                                Use lowercase letters and hyphens
+                                for a clean product URL.
+
+                            </span>
+
+
+                        </div>
+
+
+
+                        <!-- DESCRIPTION -->
+
+                        <div class="form-group full-width">
+
+
+                            <label for="description">
+
+                                Product Description
+                                <span class="required">*</span>
+
+                            </label>
+
+
+                            <textarea
+                                id="description"
+                                name="description"
+                                placeholder="Enter product description"
+                                required
+                            >{{ product.description }}</textarea>
+
+
+                            <span class="field-help">
+
+                                Provide useful information about
+                                this product for customers.
+
+                            </span>
+
+
+                        </div>
+
+
+
+                        <!-- PRICE -->
+
+                        <div class="form-group">
+
+
+                            <label for="price">
+
+                                Price (₹)
+                                <span class="required">*</span>
+
+                            </label>
+
+
+                            <input
+                                type="number"
+                                id="price"
+                                name="price"
+                                value="{{ product.price }}"
+                                step="0.01"
+                                min="0"
+                                placeholder="0.00"
+                                required
+                            >
+
+
+                        </div>
+
+
+
+                        <!-- STOCK -->
+
+                        <div class="form-group">
+
+
+                            <label for="stock">
+
+                                Stock Quantity
+                                <span class="required">*</span>
+
+                            </label>
+
+
+                            <input
+                                type="number"
+                                id="stock"
+                                name="stock"
+                                value="{{ product.stock }}"
+                                min="0"
+                                placeholder="0"
+                                required
+                            >
+
+
+                            <span class="field-help">
+
+                                Enter the number of products currently
+                                available in inventory.
+
+                            </span>
+
+
+                        </div>
+
+
+
+                        <!-- IMAGE -->
+
+                        <div class="form-group full-width">
+
+
+                            <div class="image-section">
+
+
+                                <div class="image-section-header">
+
+
+                                    <div class="image-section-icon">
+
+                                        🖼️
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <div class="image-section-title">
+
+                                            Product Image
+
+                                        </div>
+
+
+                                        <div class="image-section-subtitle">
+
+                                            Manage the product's display image.
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+
+
+                                {% if product.image %}
+
+
+                                    <div class="current-image-wrapper">
+
+
+                                        <img
+                                            src="{{ product.image.url }}"
+                                            alt="{{ product.name }}"
+                                            class="current-image"
+                                        >
+
+
+                                        <div class="image-details">
+
+
+                                            <strong>
+
+                                                {{ product.name }}
+
+                                            </strong>
+
+
+                                            Current product image is
+                                            displayed here.
+
+
+                                            <br>
+
+
+                                            Upload a new image below
+                                            if you want to replace it.
+
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                {% else %}
+
+
+                                    <div class="image-details"
+                                         style="margin-bottom: 18px;">
+
+                                        <strong>
+                                            No Image Available
+                                        </strong>
+
+                                        This product currently does not
+                                        have an image.
+
+                                    </div>
+
+
+                                {% endif %}
+
+
+
+                                <div class="new-image">
+
+
+                                    <label for="image">
+
+                                        Change Product Image
+
+                                    </label>
+
+
+                                    <input
+                                        type="file"
+                                        id="image"
+                                        name="image"
+                                        accept="image/*"
+                                        class="file-input"
+                                    >
+
+
+                                    <span class="field-help">
+
+                                        Leave this empty if you want to
+                                        keep the current image.
+
+                                    </span>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- AVAILABILITY -->
+
+                    <div class="availability-box">
+
+
+                        <input
+                            type="checkbox"
+                            id="is_available"
+                            name="is_available"
+                            {% if product.is_available %}
+                                checked
+                            {% endif %}
+                        >
+
+
+                        <label for="is_available">
+
+                            Product is available for customers
+
+                        </label>
+
+
+                        <small>
+
+                            {% if product.is_available %}
+
+                                Currently visible in store
+
+                            {% else %}
+
+                                Currently hidden from store
+
+                            {% endif %}
+
+                        </small>
+
+
+                    </div>
+
+
+
+                    <!-- ACTION BUTTONS -->
+
+                    <div class="form-actions">
+
+
+                        <a
+                            href="{% url 'dashboard_products' %}"
+                            class="cancel-btn"
+                        >
+
+                            Cancel
+
+                        </a>
+
+
+                        <button
+                            type="submit"
+                            class="update-btn"
+                        >
+
+                            ✓ Update Product
+
+                        </button>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </form>
+
+
+        </div>
+
+
+
+        <!-- INFO -->
+
+        <div class="info-box">
+
+
+            <span class="info-icon">
+                💡
+            </span>
+
+
+            <span>
+
+                <strong>Tip:</strong>
+                Review the price, stock and availability before
+                updating the product. If you do not select a new
+                image, the existing product image will remain unchanged.
+
+            </span>
+
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+</body>
+
+</html>

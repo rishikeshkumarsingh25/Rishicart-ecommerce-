@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}RishiCart - Online Shopping Site for Mobiles, Electronics, Fashion, Footwear & More{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/flipkart.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <!-- FLIPKART HEADER -->
+    {% include 'includes/fk_header.html' %}
+
+    <!-- GLOBAL MESSAGES NOTIFICATION BANNER -->
+    {% if messages %}
+    <div class="fk-flash-container" style="max-width: 1240px; margin: 14px auto 0; padding: 0 16px;">
+        {% for message in messages %}
+        <div class="fk-flash-message"
+             style="display: flex; align-items: center; justify-content: space-between; padding: 12px 18px; border-radius: 4px; margin-bottom: 10px; font-size: 14px; font-weight: 500; box-shadow: 0 2px 8px rgba(0,0,0,0.06); {% if message.tags == 'error' %}background: #fee2e2; color: #991b1b; border-left: 5px solid #ef4444;{% elif message.tags == 'success' %}background: #dcfce7; color: #166534; border-left: 5px solid #22c55e;{% else %}background: #eff6ff; color: #1e40af; border-left: 5px solid #3b82f6;{% endif %}">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span>{% if message.tags == 'error' %}⚠️{% elif message.tags == 'success' %}✅{% else %}ℹ️{% endif %}</span>
+                <span>{{ message }}</span>
+            </div>
+            <button onclick="this.parentElement.remove()" style="background: none; border: none; font-size: 20px; line-height: 1; cursor: pointer; color: inherit; opacity: 0.7;" title="Close">&times;</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- MAIN CONTENT BLOCK -->
+    {% block content %}
+    {% endblock %}
+
+    <!-- FLIPKART FOOTER -->
+    {% include 'includes/fk_footer.html' %}
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

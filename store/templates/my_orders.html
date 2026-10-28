@@ -1,0 +1,917 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders | RishiCart</title>
+    <link rel="stylesheet" href="{% static 'css/flipkart.css' %}">
+    <style>
+        .fk-orders-page-container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 16px 12px 40px;
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        /* LEFT SIDEBAR */
+        .fk-orders-sidebar {
+            background: #ffffff;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            position: sticky;
+            top: 76px;
+        }
+
+        .fk-user-profile-strip {
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .fk-user-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #2874f0;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .fk-sidebar-menu {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .fk-sidebar-link {
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #212121;
+            border-bottom: 1px solid #f5f5f5;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .fk-sidebar-link:hover,
+        .fk-sidebar-link.active {
+            background: #f1f3f6;
+            color: #2874f0;
+        }
+
+        /* RIGHT ORDERS MAIN */
+        .fk-orders-main {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* SEARCH ORDERS BOX */
+        .fk-order-search-box {
+            background: #ffffff;
+            padding: 10px 18px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .fk-order-search-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: #212121;
+        }
+
+        /* FLIPKART ORDER CARD */
+        .fk-order-card {
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-radius: 2px;
+            border: 1px solid #e0e0e0;
+            overflow: hidden;
+            transition: box-shadow 0.2s;
+        }
+
+        .fk-order-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+
+        /* CARD HEADER */
+        .fk-order-top-bar {
+            background: #f8fafc;
+            padding: 14px 20px;
+            border-bottom: 1px solid #e8e8e8;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .fk-order-top-meta {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            font-size: 13px;
+            color: #616161;
+        }
+
+        .fk-order-top-meta strong {
+            color: #212121;
+        }
+
+        .fk-order-actions-top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .fk-invoice-btn {
+            background: #ffffff;
+            color: #2874f0;
+            border: 1px solid #2874f0;
+            padding: 6px 14px;
+            border-radius: 2px;
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .fk-invoice-btn:hover {
+            background: #2874f0;
+            color: #ffffff;
+        }
+
+        /* CARD BODY */
+        .fk-order-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* ITEMS ROW */
+        .fk-order-items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .fk-order-item-row {
+            display: grid;
+            grid-template-columns: 80px 1fr 140px;
+            gap: 16px;
+            align-items: center;
+            padding-bottom: 16px;
+            border-bottom: 1px dashed #f0f0f0;
+        }
+
+        .fk-order-item-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .fk-order-item-thumb {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            border: 1px solid #f0f0f0;
+            border-radius: 2px;
+            padding: 4px;
+        }
+
+        .fk-order-item-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #212121;
+            text-decoration: none;
+            line-height: 1.35;
+        }
+
+        .fk-order-item-title:hover {
+            color: #2874f0;
+        }
+
+        .fk-order-item-meta {
+            font-size: 13px;
+            color: #878787;
+            margin-top: 4px;
+        }
+
+        .fk-order-item-price {
+            font-size: 16px;
+            font-weight: 700;
+            color: #212121;
+            text-align: right;
+        }
+
+        /* =====================================================================
+           FLIPKART TRACKING STEPPER (ORDERED -> PACKED -> SHIPPED -> DELIVERED)
+           ===================================================================== */
+        .fk-tracking-wrapper {
+            background: #fbfbfb;
+            border: 1px solid #f0f0f0;
+            border-radius: 2px;
+            padding: 20px 24px;
+        }
+
+        .fk-tracking-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .fk-tracking-heading {
+            font-size: 14px;
+            font-weight: 700;
+            color: #212121;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .fk-status-pill {
+            font-size: 12px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 12px;
+            text-transform: uppercase;
+        }
+
+        .fk-status-pill.confirmed { background: #e3f2fd; color: #1976d2; }
+        .fk-status-pill.packed { background: #ede7f6; color: #512da8; }
+        .fk-status-pill.shipped { background: #e0f2f1; color: #00796b; }
+        .fk-status-pill.out { background: #fff3e0; color: #e65100; }
+        .fk-status-pill.delivered { background: #e8f5e9; color: #2e7d32; }
+        .fk-status-pill.cancelled { background: #ffebee; color: #c62828; }
+
+        /* HORIZONTAL STEPPER */
+        .fk-stepper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .fk-step-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+            text-align: center;
+        }
+
+        .fk-step-circle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 3px solid #dcdcdc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+            color: #dcdcdc;
+            margin-bottom: 8px;
+            transition: all 0.3s;
+        }
+
+        .fk-step-item.active .fk-step-circle,
+        .fk-step-item.completed .fk-step-circle {
+            background: #388e3c;
+            border-color: #388e3c;
+            color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(56, 142, 60, 0.2);
+        }
+
+        .fk-step-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #878787;
+        }
+
+        .fk-step-item.active .fk-step-label,
+        .fk-step-item.completed .fk-step-label {
+            color: #212121;
+            font-weight: 700;
+        }
+
+        .fk-step-date {
+            font-size: 11px;
+            color: #878787;
+            margin-top: 2px;
+        }
+
+        /* CONNECTING LINE */
+        .fk-step-line {
+            position: absolute;
+            top: 14px;
+            left: 10%;
+            right: 10%;
+            height: 4px;
+            background: #e0e0e0;
+            z-index: 1;
+        }
+
+        .fk-step-line-progress {
+            height: 100%;
+            background: #388e3c;
+            transition: width 0.3s;
+        }
+
+        /* LIVE LOCATION / HUB DETAILS */
+        .fk-transit-location-box {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-left: 4px solid #2874f0;
+            padding: 12px 16px;
+            border-radius: 2px;
+            font-size: 13px;
+            color: #212121;
+            line-height: 1.5;
+            margin-top: 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        /* =====================================================================
+           DELIVERY ADDRESS SECTION (FLIPKART STYLE BOX)
+           ===================================================================== */
+        .fk-delivery-address-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 2px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .fk-address-icon {
+            font-size: 24px;
+            line-height: 1;
+            color: #2874f0;
+        }
+
+        .fk-address-content {
+            flex: 1;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .fk-address-header {
+            font-size: 14px;
+            font-weight: 700;
+            color: #212121;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 6px;
+        }
+
+        .fk-address-name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #212121;
+            margin-bottom: 2px;
+        }
+
+        .fk-address-text {
+            color: #4b5563;
+        }
+
+        .fk-address-phone {
+            margin-top: 4px;
+            color: #111827;
+            font-weight: 600;
+        }
+
+        /* ORDER FOOTER ACTIONS */
+        .fk-order-footer-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .fk-btn-action-cancel {
+            background: #ffffff;
+            color: #d32f2f;
+            border: 1px solid #d32f2f;
+            padding: 7px 18px;
+            border-radius: 2px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .fk-btn-action-cancel:hover {
+            background: #ffebee;
+        }
+
+        .fk-btn-action-return {
+            background: #ffffff;
+            color: #1976d2;
+            border: 1px solid #1976d2;
+            padding: 7px 18px;
+            border-radius: 2px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .fk-btn-action-return:hover {
+            background: #e3f2fd;
+        }
+
+        .fk-btn-action-replace {
+            background: #ffffff;
+            color: #388e3c;
+            border: 1px solid #388e3c;
+            padding: 7px 18px;
+            border-radius: 2px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .fk-btn-action-replace:hover {
+            background: #e8f5e9;
+        }
+
+        /* ACTION MODAL (FOR CANCEL, RETURN, REPLACE REASONS) */
+        .fk-action-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 2500;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .fk-action-modal-card {
+            background: #ffffff;
+            border-radius: 2px;
+            max-width: 480px;
+            width: 100%;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+            position: relative;
+        }
+
+        .fk-action-modal-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #212121;
+            margin-bottom: 14px;
+        }
+
+        .fk-modal-select,
+        .fk-modal-textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #dcdcdc;
+            border-radius: 2px;
+            font-size: 14px;
+            margin-bottom: 14px;
+            font-family: inherit;
+        }
+
+        @media (max-width: 850px) {
+            .fk-orders-page-container {
+                grid-template-columns: 1fr;
+            }
+            .fk-order-item-row {
+                grid-template-columns: 60px 1fr;
+            }
+            .fk-order-item-price {
+                grid-column: 1 / -1;
+                text-align: left;
+            }
+            .fk-stepper {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+                padding-left: 10px;
+            }
+            .fk-step-line {
+                display: none;
+            }
+            .fk-step-item {
+                flex-direction: row;
+                gap: 12px;
+                text-align: left;
+            }
+            .fk-step-circle {
+                margin-bottom: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- FLIPKART HEADER -->
+    {% include 'includes/fk_header.html' %}
+
+    <div class="fk-orders-page-container">
+
+        <!-- LEFT SIDEBAR -->
+        <aside class="fk-orders-sidebar">
+            <div class="fk-user-profile-strip">
+                <div class="fk-user-avatar">
+                    {{ user.username|make_list|first|upper }}
+                </div>
+                <div>
+                    <div style="font-size: 12px; color: #878787;">Hello,</div>
+                    <div style="font-size: 15px; font-weight: 700; color: #212121;">{{ user.first_name|default:user.username|title }}</div>
+                </div>
+            </div>
+
+            <nav class="fk-sidebar-menu">
+                <a href="{% url 'my_orders' %}" class="fk-sidebar-link active">
+                    <span>📦</span> MY ORDERS
+                </a>
+                <a href="{% url 'profile' %}" class="fk-sidebar-link">
+                    <span>👤</span> Profile Information
+                </a>
+                <a href="{% url 'edit_profile' %}" class="fk-sidebar-link">
+                    <span>✏️</span> Edit Profile
+                </a>
+                <a href="{% url 'cart' %}" class="fk-sidebar-link">
+                    <span>🛒</span> My Cart
+                </a>
+                <a href="{% url 'logout' %}" class="fk-sidebar-link" style="color: #d32f2f;">
+                    <span>🚪</span> Logout
+                </a>
+            </nav>
+        </aside>
+
+        <!-- RIGHT ORDERS MAIN LIST -->
+        <main class="fk-orders-main">
+
+            <!-- SEARCH ORDERS -->
+            <div class="fk-order-search-box">
+                <span style="font-size: 16px; color: #878787;">🔍</span>
+                <input type="text" class="fk-order-search-input" placeholder="Search orders by Item Name, Order ID, or Status..." onkeyup="filterOrders(this.value)">
+            </div>
+
+            {% for order in orders %}
+            <article class="fk-order-card" data-search="{{ order.id }} {{ order.status }} {{ order.full_name }} {{ order.city }} {{ order.pincode }} {% for item in order.items.all %}{{ item.product_name }} {% endfor %}">
+
+                <!-- ORDER TOP BAR -->
+                <div class="fk-order-top-bar">
+                    <div class="fk-order-top-meta">
+                        <div>
+                            <span>Order ID:</span>
+                            <strong>#{{ order.id }}</strong>
+                        </div>
+                        <div>
+                            <span>Order Placed:</span>
+                            <strong>{{ order.created_at|date:"d M, Y, h:i A" }}</strong>
+                        </div>
+                        <div>
+                            <span>Total Amount:</span>
+                            <strong style="color: #212121; font-size: 15px;">₹{{ order.total_amount }}</strong>
+                        </div>
+                        <div>
+                            <span>Payment:</span>
+                            <strong>{{ order.payment_method }} ({{ order.payment_status }})</strong>
+                        </div>
+                    </div>
+
+                    <div class="fk-order-actions-top">
+                        <a href="{% url 'download_invoice' order.id %}" class="fk-invoice-btn" target="_blank" title="Download Tax Invoice">
+                            📄 Download Invoice
+                        </a>
+                    </div>
+                </div>
+
+                <div class="fk-order-body">
+
+                    <!-- ITEMS LIST -->
+                    <div class="fk-order-items-list">
+                        {% for item in order.items.all %}
+                        <div class="fk-order-item-row">
+                            {% if item.product and item.product.image %}
+                            <img src="{{ item.product.image.url }}" alt="{{ item.product_name }}" class="fk-order-item-thumb">
+                            {% else %}
+                            <div style="font-size: 40px; text-align: center; line-height: 80px;">🛍️</div>
+                            {% endif %}
+
+                            <div>
+                                {% if item.product %}
+                                <a href="{% url 'product_detail' item.product.slug %}" class="fk-order-item-title">
+                                    {{ item.product_name }}
+                                </a>
+                                {% else %}
+                                <span class="fk-order-item-title">{{ item.product_name }}</span>
+                                {% endif %}
+
+                                <div class="fk-order-item-meta">
+                                    Quantity: <strong>{{ item.quantity }}</strong> • Price: ₹{{ item.price }}
+                                </div>
+                                {% if item.product and item.product.is_footwear %}
+                                <div style="font-size: 12px; color: #388e3c; font-weight: 600; margin-top: 2px;">
+                                    👟 Footwear Product (UK Sizing)
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="fk-order-item-price">
+                                ₹{{ item.subtotal }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- =========================================================
+                         FLIPKART TRACKING STEPPER:
+                         ORDER CONFIRMED -> PACKED -> SHIPPED -> OUT FOR DELIVERY -> DELIVERED
+                         ========================================================= -->
+                    <div class="fk-tracking-wrapper">
+                        <div class="fk-tracking-title-row">
+                            <div class="fk-tracking-heading">
+                                <span>🚚</span> Delivery & Live Tracking Status
+                            </div>
+
+                            <!-- STATUS PILL -->
+                            <div>
+                                {% if order.status == 'Delivered' %}
+                                <span class="fk-status-pill delivered">✓ Delivered</span>
+                                {% elif order.status == 'Cancelled' %}
+                                <span class="fk-status-pill cancelled">✕ Cancelled</span>
+                                {% elif order.status == 'Shipped' %}
+                                <span class="fk-status-pill shipped">✈ Shipped</span>
+                                {% elif order.status == 'Packed' %}
+                                <span class="fk-status-pill packed">📦 Packed</span>
+                                {% elif order.status == 'Out for Delivery' %}
+                                <span class="fk-status-pill out">🛵 Out for Delivery</span>
+                                {% else %}
+                                <span class="fk-status-pill confirmed">● {{ order.status }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {% if order.is_cancelled %}
+                        <!-- CANCELLED STATUS NOTICE -->
+                        <div style="background: #ffebee; border: 1px solid #ffcdd2; color: #c62828; padding: 14px 18px; border-radius: 2px; font-size: 14px;">
+                            <strong>✕ Order Cancelled</strong>
+                            <p style="margin-top: 4px; font-size: 13px;">Reason: {{ order.action_reason|default:"Cancelled by customer" }}</p>
+                        </div>
+                        {% elif order.is_returned %}
+                        <!-- RETURN STATUS NOTICE -->
+                        <div style="background: #e3f2fd; border: 1px solid #bbdefb; color: #1565c0; padding: 14px 18px; border-radius: 2px; font-size: 14px;">
+                            <strong>🔄 Return Request Active</strong>
+                            <p style="margin-top: 4px; font-size: 13px;">Pickup agent has been assigned for pickup from your address. (Reason: {{ order.action_reason|default:"Return requested" }})</p>
+                        </div>
+                        {% elif order.is_replaced %}
+                        <!-- REPLACEMENT STATUS NOTICE -->
+                        <div style="background: #e8f5e9; border: 1px solid #c8e6c9; color: #2e7d32; padding: 14px 18px; border-radius: 2px; font-size: 14px;">
+                            <strong>🔄 Replacement Order Processing</strong>
+                            <p style="margin-top: 4px; font-size: 13px;">A new replacement unit is being prepared for dispatch to your address. (Reason: {{ order.action_reason|default:"Replacement requested" }})</p>
+                        </div>
+                        {% else %}
+                        <!-- FLIPKART 5-STEP TRACKING TIMELINE -->
+                        <div class="fk-stepper">
+                            <!-- CONNECTING LINE -->
+                            <div class="fk-step-line">
+                                <div class="fk-step-line-progress" style="width: {% if order.tracking_step >= 5 %}100%{% elif order.tracking_step == 4 %}75%{% elif order.tracking_step == 3 %}50%{% elif order.tracking_step == 2 %}25%{% else %}0%{% endif %};"></div>
+                            </div>
+
+                            <!-- STEP 1: ORDER CONFIRMED -->
+                            <div class="fk-step-item {% if order.tracking_step >= 1 %}completed{% endif %}">
+                                <div class="fk-step-circle">✓</div>
+                                <div class="fk-step-label">Order Confirmed</div>
+                                <div class="fk-step-date">{{ order.created_at|date:"d M, Y" }}</div>
+                            </div>
+
+                            <!-- STEP 2: PACKED -->
+                            <div class="fk-step-item {% if order.tracking_step >= 2 %}completed{% elif order.tracking_step == 1 %}pending{% endif %}">
+                                <div class="fk-step-circle">{% if order.tracking_step >= 2 %}✓{% else %}2{% endif %}</div>
+                                <div class="fk-step-label">Packed</div>
+                                <div class="fk-step-date">{% if order.tracking_step >= 2 %}Packaging Done{% else %}In Process{% endif %}</div>
+                            </div>
+
+                            <!-- STEP 3: SHIPPED -->
+                            <div class="fk-step-item {% if order.tracking_step >= 3 %}completed{% elif order.tracking_step == 2 %}active{% else %}pending{% endif %}">
+                                <div class="fk-step-circle">{% if order.tracking_step >= 3 %}✓{% else %}3{% endif %}</div>
+                                <div class="fk-step-label">Shipped</div>
+                                <div class="fk-step-date">{% if order.tracking_step >= 3 %}{{ order.courier_name }}{% else %}Expected Soon{% endif %}</div>
+                            </div>
+
+                            <!-- STEP 4: OUT FOR DELIVERY -->
+                            <div class="fk-step-item {% if order.tracking_step >= 4 %}completed{% elif order.tracking_step == 3 %}active{% else %}pending{% endif %}">
+                                <div class="fk-step-circle">{% if order.tracking_step >= 4 %}✓{% else %}4{% endif %}</div>
+                                <div class="fk-step-label">Out for Delivery</div>
+                                <div class="fk-step-date">{% if order.tracking_step >= 4 %}Delivery Agent Out{% else %}Next Step{% endif %}</div>
+                            </div>
+
+                            <!-- STEP 5: DELIVERED -->
+                            <div class="fk-step-item {% if order.tracking_step >= 5 %}completed{% elif order.tracking_step == 4 %}active{% else %}pending{% endif %}">
+                                <div class="fk-step-circle">{% if order.tracking_step >= 5 %}✓{% else %}5{% endif %}</div>
+                                <div class="fk-step-label">Delivered</div>
+                                <div class="fk-step-date">{{ order.estimated_delivery_date }}</div>
+                            </div>
+                        </div>
+
+                        <!-- LIVE TRANSIT LOCATION -->
+                        <div class="fk-transit-location-box">
+                            <span style="font-size: 18px;">📍</span>
+                            <div>
+                                <strong>Shipment Location & Courier Updates:</strong><br>
+                                <span>{{ order.display_location }}</span>
+                                <div style="margin-top: 4px; font-size: 12px; color: #616161;">
+                                    Logistics Partner: <strong>{{ order.courier_name }}</strong> • Tracking / AWB Number: <strong>{{ order.tracking_id }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- =========================================================
+                         DELIVERY ADDRESS CARD
+                         ========================================================= -->
+                    <div class="fk-delivery-address-card">
+                        <div class="fk-address-icon">🏠</div>
+                        <div class="fk-address-content">
+                            <div class="fk-address-header">Delivery Address Details</div>
+                            <div class="fk-address-name">{{ order.full_name|default:user.first_name|default:user.username|title }}</div>
+                            <div class="fk-address-text">
+                                {{ order.address|default:"Customer Delivery Address" }},<br>
+                                {{ order.city|default:"City" }}, {{ order.state|default:"State" }} - <strong>{{ order.pincode|default:"800001" }}</strong>
+                            </div>
+                            <div class="fk-address-phone">
+                                📞 Mobile Number: {{ order.phone|default:"9876543210" }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FOOTER ACTIONS (CANCEL / RETURN / REPLACE) -->
+                    <div class="fk-order-footer-actions">
+                        <div style="font-size: 13px; color: #616161;">
+                            Need help with this order? <a href="#" style="color: #2874f0; font-weight: 600;">Contact Support</a>
+                        </div>
+
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            {% if order.can_cancel %}
+                            <button type="button" class="fk-btn-action-cancel" onclick="openActionModal('cancel', '{{ order.id }}')">
+                                Cancel Order
+                            </button>
+                            {% endif %}
+
+                            {% if order.can_return %}
+                            <button type="button" class="fk-btn-action-return" onclick="openActionModal('return', '{{ order.id }}')">
+                                Return Item
+                            </button>
+                            {% endif %}
+
+                            {% if order.can_replace %}
+                            <button type="button" class="fk-btn-action-replace" onclick="openActionModal('replace', '{{ order.id }}')">
+                                Replace Item
+                            </button>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+
+            </article>
+            {% empty %}
+            <div style="background: #ffffff; padding: 60px 20px; text-align: center; border-radius: 2px; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
+                <div style="font-size: 70px; margin-bottom: 12px;">📦</div>
+                <h3 style="font-size: 18px; color: #212121; margin-bottom: 6px;">You haven't placed any orders yet!</h3>
+                <p style="color: #878787; font-size: 13px; margin-bottom: 20px;">Check out our hot deals and explore thousands of items.</p>
+                <a href="{% url 'products' %}" class="fk-btn-place-order" style="padding: 10px 28px; background: #2874f0;">Explore Products</a>
+            </div>
+            {% endfor %}
+
+        </main>
+
+    </div>
+
+    <!-- ACTION MODAL (CANCEL / RETURN / REPLACE) -->
+    <div id="actionModal" class="fk-action-modal">
+        <div class="fk-action-modal-card">
+            <h3 id="actionModalTitle">Action Title</h3>
+            <form id="actionModalForm" method="POST">
+                {% csrf_token %}
+                <label style="display: block; font-size: 13px; font-weight: 600; color: #212121; margin-bottom: 6px;" for="actionReason">Reason *</label>
+                <select name="reason" id="actionReason" class="fk-modal-select" required>
+                    <option value="">Select a reason</option>
+                    <option value="Ordered by mistake">Ordered by mistake</option>
+                    <option value="Expected delivery time is too long">Expected delivery time is too long</option>
+                    <option value="Item not needed anymore">Item not needed anymore</option>
+                    <option value="Item size or fit issue">Item size or fit issue</option>
+                    <option value="Damaged or defective item received">Damaged or defective item received</option>
+                    <option value="Other">Other reason</option>
+                </select>
+
+                <label style="display: block; font-size: 13px; font-weight: 600; color: #212121; margin-bottom: 6px;" for="actionComment">Additional Comments (Optional)</label>
+                <textarea name="comment" id="actionComment" rows="3" class="fk-modal-textarea" placeholder="Provide any details here..."></textarea>
+
+                <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px;">
+                    <button type="button" onclick="closeActionModal()" style="background: #f1f3f6; color: #212121; padding: 10px 20px; border-radius: 2px; font-weight: 600; cursor: pointer;">
+                        Dismiss
+                    </button>
+                    <button type="submit" id="actionSubmitBtn" style="background: #fb641b; color: #ffffff; padding: 10px 24px; border-radius: 2px; font-weight: 700; cursor: pointer; border: none;">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- FLIPKART FOOTER -->
+    {% include 'includes/fk_footer.html' %}
+
+    <script>
+        function filterOrders(term) {
+            term = term.toLowerCase().trim();
+            document.querySelectorAll('.fk-order-card').forEach(card => {
+                const searchData = card.getAttribute('data-search').toLowerCase();
+                card.style.display = searchData.includes(term) ? 'block' : 'none';
+            });
+        }
+
+        function openActionModal(actionType, orderId) {
+            const modal = document.getElementById('actionModal');
+            const title = document.getElementById('actionModalTitle');
+            const form = document.getElementById('actionModalForm');
+            const submitBtn = document.getElementById('actionSubmitBtn');
+
+            if (actionType === 'cancel') {
+                title.textContent = `Cancel Order #${orderId}`;
+                form.action = `/orders/cancel/${orderId}/`;
+                submitBtn.textContent = 'Confirm Cancellation';
+                submitBtn.style.background = '#d32f2f';
+            } else if (actionType === 'return') {
+                title.textContent = `Return Item - Order #${orderId}`;
+                form.action = `/orders/return/${orderId}/`;
+                submitBtn.textContent = 'Submit Return Request';
+                submitBtn.style.background = '#1976d2';
+            } else if (actionType === 'replace') {
+                title.textContent = `Replace Item - Order #${orderId}`;
+                form.action = `/orders/replace/${orderId}/`;
+                submitBtn.textContent = 'Submit Replacement Request';
+                submitBtn.style.background = '#388e3c';
+            }
+
+            modal.style.display = 'flex';
+        }
+
+        function closeActionModal() {
+            document.getElementById('actionModal').style.display = 'none';
+        }
+
+        document.getElementById('actionModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeActionModal();
+            }
+        });
+    </script>
+</body>
+</html>

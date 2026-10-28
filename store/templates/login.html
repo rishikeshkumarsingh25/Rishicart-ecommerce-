@@ -1,0 +1,251 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | RishiCart</title>
+    <link rel="stylesheet" href="{% static 'css/flipkart.css' %}">
+    <style>
+        .fk-auth-wrapper {
+            max-width: 850px;
+            margin: 40px auto 60px;
+            background: #ffffff;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            border-radius: 2px;
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            min-height: 520px;
+            overflow: hidden;
+        }
+
+        /* LEFT BLUE BANNER */
+        .fk-auth-banner {
+            background: #2874f0;
+            color: #ffffff;
+            padding: 40px 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .fk-auth-banner-title {
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 1.25;
+            margin-bottom: 16px;
+        }
+
+        .fk-auth-banner-desc {
+            font-size: 17px;
+            line-height: 1.5;
+            color: #dbdbdb;
+        }
+
+        .fk-auth-banner-graphic {
+            font-size: 90px;
+            text-align: center;
+            opacity: 0.85;
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.2));
+        }
+
+        /* RIGHT FORM */
+        .fk-auth-form-wrap {
+            padding: 45px 36px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .fk-auth-field {
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .fk-auth-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #878787;
+            margin-bottom: 6px;
+        }
+
+        .fk-auth-input {
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 15px;
+            color: #212121;
+            padding: 8px 0;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .fk-auth-input:focus {
+            border-bottom-color: #2874f0;
+        }
+
+        .fk-auth-terms {
+            font-size: 12px;
+            color: #878787;
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+
+        .fk-auth-terms a {
+            color: #2874f0;
+        }
+
+        .fk-btn-auth-orange {
+            width: 100%;
+            background: #fb641b;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 700;
+            padding: 13px 0;
+            border-radius: 2px;
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,.2);
+            text-transform: uppercase;
+            cursor: pointer;
+            border: none;
+            letter-spacing: 0.5px;
+            margin-bottom: 24px;
+        }
+
+        .fk-btn-auth-orange:hover {
+            background: #e2540f;
+        }
+
+        .fk-switch-auth-link {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #2874f0;
+            text-decoration: none;
+            display: block;
+            margin-top: auto;
+        }
+
+        .fk-auth-error {
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 10px 14px;
+            border-radius: 2px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 18px;
+            border-left: 4px solid #ef4444;
+        }
+
+        .fk-auth-success {
+            background: #dcfce7;
+            color: #166534;
+            padding: 10px 14px;
+            border-radius: 2px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 18px;
+            border-left: 4px solid #22c55e;
+        }
+
+        .fk-auth-notice {
+            background: #eff6ff;
+            color: #1e40af;
+            padding: 10px 14px;
+            border-radius: 2px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-bottom: 18px;
+            border-left: 4px solid #3b82f6;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .fk-auth-wrapper {
+                grid-template-columns: 1fr;
+                margin: 20px 12px;
+            }
+            .fk-auth-banner {
+                padding: 24px;
+            }
+            .fk-auth-banner-graphic {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- FLIPKART HEADER -->
+    {% include 'includes/fk_header.html' %}
+
+    <div class="fk-auth-wrapper">
+
+        <!-- LEFT BLUE BANNER -->
+        <div class="fk-auth-banner">
+            <div>
+                <h1 class="fk-auth-banner-title">Login</h1>
+                <p class="fk-auth-banner-desc">Get access to your Orders, Wishlist and Recommendations</p>
+            </div>
+            <div class="fk-auth-banner-graphic">
+                🛒
+            </div>
+        </div>
+
+        <!-- RIGHT FORM -->
+        <div class="fk-auth-form-wrap">
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next|default:'' }}">
+
+                {% if error %}
+                <div class="fk-auth-error">
+                    {{ error }}
+                </div>
+                {% endif %}
+
+                {% if messages %}
+                {% for message in messages %}
+                <div class="{% if message.tags == 'error' %}fk-auth-error{% elif message.tags == 'success' %}fk-auth-success{% else %}fk-auth-notice{% endif %}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+
+                <div class="fk-auth-notice">
+                    🔒 Real Email Verification: Customers will receive an OTP code to verify login. Admin can log in directly.
+                </div>
+
+                <div class="fk-auth-field">
+                    <label class="fk-auth-label" for="email">Enter Email / Username</label>
+                    <input type="text" id="email" name="email" value="{{ email|default:'' }}" class="fk-auth-input" placeholder="Enter email or username" required autocomplete="username">
+                </div>
+
+                <div class="fk-auth-field">
+                    <label class="fk-auth-label" for="password">Enter Password</label>
+                    <input type="password" id="password" name="password" class="fk-auth-input" placeholder="Enter your password" required autocomplete="current-password">
+                </div>
+
+                <p class="fk-auth-terms">
+                    By continuing, you agree to RishiCart's <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>.
+                </p>
+
+                <button type="submit" class="fk-btn-auth-orange">
+                    Send OTP & Login
+                </button>
+            </form>
+
+            <a href="{% url 'signup' %}" class="fk-switch-auth-link">
+                New to RishiCart? Create an account
+            </a>
+        </div>
+
+    </div>
+
+    <!-- FLIPKART FOOTER -->
+    {% include 'includes/fk_footer.html' %}
+
+</body>
+</html>

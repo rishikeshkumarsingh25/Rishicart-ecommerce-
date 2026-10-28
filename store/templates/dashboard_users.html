@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Users - RishiCart Dashboard</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f1f5f9;
+            color: #111827;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+
+            width: 240px;
+            height: 100vh;
+
+            background: #111827;
+
+            padding: 24px 14px;
+
+            overflow-y: auto;
+
+            z-index: 1000;
+        }
+
+        .logo {
+            color: white;
+
+            font-size: 25px;
+
+            font-weight: 800;
+
+            padding: 0 15px 25px;
+
+            border-bottom: 1px solid #374151;
+
+            margin-bottom: 25px;
+        }
+
+        .logo span {
+            color: #38bdf8;
+        }
+
+        .menu-title {
+            color: #6b7280;
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            padding: 0 15px;
+
+            margin-bottom: 10px;
+        }
+
+        .sidebar a {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            color: #d1d5db;
+
+            padding: 12px 15px;
+
+            margin-bottom: 5px;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+            transition: .3s;
+        }
+
+        .sidebar a:hover {
+            background: #1f2937;
+            color: white;
+        }
+
+        .sidebar a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        .sidebar-bottom {
+            margin-top: 25px;
+
+            padding-top: 20px;
+
+            border-top: 1px solid #374151;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            margin-left: 240px;
+
+            min-height: 100vh;
+        }
+
+
+        /* =========================
+           TOPBAR
+        ========================= */
+
+        .topbar {
+            height: 72px;
+
+            background: white;
+
+            border-bottom: 1px solid #e5e7eb;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 35px;
+        }
+
+        .topbar-title {
+            font-size: 20px;
+
+            font-weight: bold;
+
+            color: #111827;
+        }
+
+        .store-link {
+            color: #2563eb;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+        .store-link:hover {
+            color: #1d4ed8;
+        }
+
+
+        /* =========================
+           CONTENT
+        ========================= */
+
+        .content {
+            padding: 35px;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 29px;
+
+            color: #111827;
+
+            margin-bottom: 7px;
+        }
+
+        .header p {
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           USER COUNT
+        ========================= */
+
+        .user-count {
+            background: white;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 9px;
+
+            padding: 12px 18px;
+
+            color: #475569;
+
+            font-size: 13px;
+        }
+
+        .user-count strong {
+            color: #111827;
+
+            font-size: 18px;
+
+            margin-right: 5px;
+        }
+
+
+        /* =========================
+           TABLE BOX
+        ========================= */
+
+        .table-box {
+            background: white;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 12px;
+
+            overflow: hidden;
+        }
+
+
+        .table-header {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 20px 22px;
+
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .table-header h2 {
+            font-size: 17px;
+
+            color: #111827;
+        }
+
+        .table-header p {
+            color: #64748b;
+
+            font-size: 12px;
+
+            margin-top: 4px;
+        }
+
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-wrapper {
+            width: 100%;
+
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+
+            min-width: 850px;
+
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 15px 18px;
+
+            text-align: left;
+
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background: #f8fafc;
+
+            color: #475569;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            text-transform: uppercase;
+
+            letter-spacing: .3px;
+
+            white-space: nowrap;
+        }
+
+        td {
+            color: #374151;
+
+            font-size: 13px;
+
+            vertical-align: middle;
+        }
+
+        tbody tr {
+            transition: .2s;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+
+        /* =========================
+           USER AVATAR
+        ========================= */
+
+        .user-info {
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+        }
+
+        .avatar {
+            width: 38px;
+
+            height: 38px;
+
+            border-radius: 50%;
+
+            background: #eff6ff;
+
+            color: #2563eb;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: bold;
+
+            font-size: 14px;
+
+            flex-shrink: 0;
+        }
+
+        .username {
+            color: #111827;
+
+            font-weight: bold;
+        }
+
+        .user-id {
+            color: #94a3b8;
+
+            font-size: 11px;
+
+            margin-top: 2px;
+        }
+
+
+        /* =========================
+           EMAIL
+        ========================= */
+
+        .email {
+            color: #475569;
+
+            word-break: break-word;
+        }
+
+
+        /* =========================
+           STATUS
+        ========================= */
+
+        .status {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+        }
+
+        .status::before {
+            content: "";
+
+            width: 6px;
+
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: currentColor;
+        }
+
+        .active {
+            background: #dcfce7;
+
+            color: #15803d;
+        }
+
+        .inactive {
+            background: #fee2e2;
+
+            color: #b91c1c;
+        }
+
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty {
+            text-align: center;
+
+            padding: 70px 20px !important;
+
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+        .empty-icon {
+            width: 60px;
+
+            height: 60px;
+
+            margin: 0 auto 15px;
+
+            border-radius: 50%;
+
+            background: #f1f5f9;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 25px;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+                width: 210px;
+            }
+
+            .main {
+                margin-left: 210px;
+            }
+
+            .content {
+                padding: 25px;
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
+            .sidebar {
+                position: relative;
+
+                width: 100%;
+
+                height: auto;
+
+                padding: 15px;
+            }
+
+            .logo {
+                margin-bottom: 15px;
+
+                padding-bottom: 15px;
+            }
+
+            .menu-title {
+                display: none;
+            }
+
+            .sidebar-menu {
+                display: flex;
+
+                flex-wrap: wrap;
+
+                gap: 5px;
+            }
+
+            .sidebar a {
+                margin: 0;
+
+                padding: 9px 11px;
+            }
+
+            .sidebar-bottom {
+                margin-top: 10px;
+
+                padding-top: 10px;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .topbar {
+                padding: 0 18px;
+
+                height: 65px;
+            }
+
+            .topbar-title {
+                font-size: 17px;
+            }
+
+            .content {
+                padding: 20px 15px;
+            }
+
+            .header {
+                align-items: flex-start;
+
+                gap: 15px;
+
+                flex-direction: column;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .user-count {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+
+    <div class="logo">
+
+        Rishi<span>Cart</span>
+
+    </div>
+
+
+    <div class="menu-title">
+
+        Main Menu
+
+    </div>
+
+
+    <div class="sidebar-menu">
+
+
+        <a href="{% url 'dashboard' %}">
+
+            🏠
+            <span>Dashboard</span>
+
+        </a>
+
+
+        <a
+            href="{% url 'dashboard_users' %}"
+            class="active"
+        >
+
+            👤
+            <span>Users</span>
+
+        </a>
+
+
+        <a href="{% url 'dashboard_products' %}">
+
+            📦
+            <span>Products</span>
+
+        </a>
+
+
+        <a href="{% url 'dashboard_categories' %}">
+
+            🗂
+            <span>Categories</span>
+
+        </a>
+
+
+        <a href="{% url 'dashboard_orders' %}">
+
+            🛒
+            <span>Orders</span>
+
+        </a>
+
+
+    </div>
+
+
+    <div class="sidebar-bottom">
+
+
+        <a href="{% url 'home' %}">
+
+            🌐
+            <span>Visit Store</span>
+
+        </a>
+
+
+        <a href="{% url 'logout' %}">
+
+            🚪
+            <span>Logout</span>
+
+        </a>
+
+
+    </div>
+
+
+</aside>
+
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+
+        <div class="topbar-title">
+
+            RishiCart Admin
+
+        </div>
+
+
+        <a
+            href="{% url 'home' %}"
+            class="store-link"
+        >
+
+            🌐 Visit Store →
+
+        </a>
+
+
+    </div>
+
+
+
+    <!-- CONTENT -->
+
+    <div class="content">
+
+
+        <!-- HEADER -->
+
+        <div class="header">
+
+
+            <div>
+
+                <h1>
+                    Users
+                </h1>
+
+                <p>
+                    Manage registered RishiCart customers
+                </p>
+
+            </div>
+
+
+            <div class="user-count">
+
+                <strong>
+                    {{ users|length }}
+                </strong>
+
+                Registered Users
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =========================
+             TABLE
+        ========================= -->
+
+        <div class="table-box">
+
+
+            <div class="table-header">
+
+
+                <div>
+
+                    <h2>
+                        User Management
+                    </h2>
+
+                    <p>
+                        View customer account information
+                        and account status.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+
+                <table>
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                User
+                            </th>
+
+                            <th>
+                                First Name
+                            </th>
+
+                            <th>
+                                Last Name
+                            </th>
+
+                            <th>
+                                Email
+                            </th>
+
+                            <th>
+                                Date Joined
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        {% for user in users %}
+
+
+                        <tr>
+
+
+                            <!-- USER -->
+
+                            <td>
+
+                                <div class="user-info">
+
+
+                                    <div class="avatar">
+
+                                        {{ user.username|first|upper }}
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <div class="username">
+
+                                            {{ user.username }}
+
+                                        </div>
+
+
+                                        <div class="user-id">
+
+                                            ID #{{ user.id }}
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- FIRST NAME -->
+
+                            <td>
+
+                                {{ user.first_name|default:"-" }}
+
+                            </td>
+
+
+                            <!-- LAST NAME -->
+
+                            <td>
+
+                                {{ user.last_name|default:"-" }}
+
+                            </td>
+
+
+                            <!-- EMAIL -->
+
+                            <td>
+
+                                <span class="email">
+
+                                    {{ user.email|default:"-" }}
+
+                                </span>
+
+                            </td>
+
+
+                            <!-- DATE -->
+
+                            <td>
+
+                                {{ user.date_joined|date:"d M Y, h:i A" }}
+
+                            </td>
+
+
+                            <!-- STATUS -->
+
+                            <td>
+
+
+                                {% if user.is_active %}
+
+                                    <span class="status active">
+
+                                        Active
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="status inactive">
+
+                                        Inactive
+
+                                    </span>
+
+                                {% endif %}
+
+
+                            </td>
+
+
+                        </tr>
+
+
+                        {% empty %}
+
+
+                        <tr>
+
+                            <td
+                                colspan="6"
+                                class="empty"
+                            >
+
+                                <div class="empty-icon">
+                                    👥
+                                </div>
+
+                                <strong>
+                                    No users found
+                                </strong>
+
+                                <br>
+
+                                There are currently no registered users.
+
+                            </td>
+
+                        </tr>
+
+
+                        {% endfor %}
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+</body>
+
+</html>

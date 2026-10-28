@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard - RishiCart</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f1f5f9;
+            color: #111827;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* =================================
+           SIDEBAR
+        ================================= */
+
+        .sidebar {
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+
+            width: 240px;
+
+            height: 100vh;
+
+            background: #111827;
+
+            padding: 24px 14px;
+
+            z-index: 1000;
+
+            overflow-y: auto;
+        }
+
+
+        .logo {
+
+            color: white;
+
+            font-size: 25px;
+
+            font-weight: 800;
+
+            padding: 0 15px 25px;
+
+            border-bottom: 1px solid #374151;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .logo span {
+            color: #38bdf8;
+        }
+
+
+        .menu-title {
+
+            color: #6b7280;
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            padding: 0 15px;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .sidebar a {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            color: #d1d5db;
+
+            padding: 12px 15px;
+
+            margin-bottom: 5px;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+            transition: 0.3s;
+
+        }
+
+
+        .sidebar a:hover {
+
+            background: #1f2937;
+
+            color: white;
+
+        }
+
+
+        .sidebar a.active {
+
+            background: #2563eb;
+
+            color: white;
+
+        }
+
+
+        .sidebar-bottom {
+
+            margin-top: 25px;
+
+            padding-top: 20px;
+
+            border-top: 1px solid #374151;
+
+        }
+
+
+        /* =================================
+           MAIN
+        ================================= */
+
+        .main {
+
+            margin-left: 240px;
+
+            min-height: 100vh;
+
+        }
+
+
+        /* =================================
+           TOP BAR
+        ================================= */
+
+        .topbar {
+
+            height: 72px;
+
+            background: white;
+
+            border-bottom: 1px solid #e5e7eb;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 35px;
+
+        }
+
+
+        .topbar-title {
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            color: #111827;
+
+        }
+
+
+        .store-link {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            color: #2563eb;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+        }
+
+
+        .store-link:hover {
+
+            color: #1d4ed8;
+
+        }
+
+
+        /* =================================
+           CONTENT
+        ================================= */
+
+        .content {
+
+            padding: 35px;
+
+        }
+
+
+        .header {
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .header h1 {
+
+            font-size: 29px;
+
+            color: #111827;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .header p {
+
+            color: #64748b;
+
+            font-size: 14px;
+
+        }
+
+
+        /* =================================
+           STAT CARDS
+        ================================= */
+
+        .cards {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 20px;
+
+        }
+
+
+        .card {
+
+            position: relative;
+
+            display: block;
+
+            background: white;
+
+            padding: 23px;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 12px;
+
+            overflow: hidden;
+
+            transition: 0.3s;
+
+        }
+
+
+        .card:hover {
+
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 10px 25px
+                rgba(15, 23, 42, 0.08);
+
+            border-color: #bfdbfe;
+
+        }
+
+
+        .card-top {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .card-title {
+
+            color: #64748b;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+        }
+
+
+        .card-icon {
+
+            width: 42px;
+
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #eff6ff;
+
+            border-radius: 9px;
+
+            font-size: 20px;
+
+        }
+
+
+        .number {
+
+            font-size: 30px;
+
+            font-weight: 800;
+
+            color: #111827;
+
+        }
+
+
+        .card-link {
+
+            display: block;
+
+            margin-top: 15px;
+
+            color: #2563eb;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+        }
+
+
+        .card-link:hover {
+
+            text-decoration: underline;
+
+        }
+
+
+        /* =================================
+           QUICK ACTIONS
+        ================================= */
+
+        .section {
+
+            margin-top: 35px;
+
+        }
+
+
+        .section-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .section-header h2 {
+
+            font-size: 19px;
+
+            color: #111827;
+
+        }
+
+
+        .section-header p {
+
+            color: #64748b;
+
+            font-size: 13px;
+
+        }
+
+
+        .quick-actions {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+
+        }
+
+
+        .action {
+
+            background: white;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 11px;
+
+            padding: 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            transition: 0.3s;
+
+        }
+
+
+        .action:hover {
+
+            border-color: #93c5fd;
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 20px
+                rgba(15, 23, 42, 0.06);
+
+        }
+
+
+        .action-icon {
+
+            width: 45px;
+
+            height: 45px;
+
+            flex-shrink: 0;
+
+            border-radius: 9px;
+
+            background: #f1f5f9;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 20px;
+
+        }
+
+
+        .action h3 {
+
+            font-size: 14px;
+
+            margin-bottom: 5px;
+
+            color: #111827;
+
+        }
+
+
+        .action p {
+
+            font-size: 12px;
+
+            color: #64748b;
+
+        }
+
+
+        /* =================================
+           WELCOME BOX
+        ================================= */
+
+        .welcome-box {
+
+            margin-top: 30px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1d4ed8,
+                    #2563eb,
+                    #38bdf8
+                );
+
+            color: white;
+
+            border-radius: 13px;
+
+            padding: 28px;
+
+            position: relative;
+
+            overflow: hidden;
+
+        }
+
+
+        .welcome-box::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 180px;
+
+            height: 180px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,0.10);
+
+            right: -50px;
+
+            top: -70px;
+
+        }
+
+
+        .welcome-box h2 {
+
+            font-size: 22px;
+
+            margin-bottom: 8px;
+
+            position: relative;
+
+            z-index: 1;
+
+        }
+
+
+        .welcome-box p {
+
+            font-size: 14px;
+
+            opacity: 0.9;
+
+            position: relative;
+
+            z-index: 1;
+
+        }
+
+
+        /* =================================
+           RESPONSIVE
+        ================================= */
+
+        @media (max-width: 1100px) {
+
+            .cards {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+
+            .quick-actions {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+        }
+
+
+        @media (max-width: 850px) {
+
+            .sidebar {
+
+                width: 210px;
+
+            }
+
+
+            .main {
+
+                margin-left: 210px;
+
+            }
+
+
+            .content {
+
+                padding: 25px;
+
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
+            .sidebar {
+
+                position: relative;
+
+                width: 100%;
+
+                height: auto;
+
+                padding: 15px;
+
+            }
+
+
+            .logo {
+
+                margin-bottom: 15px;
+
+                padding-bottom: 15px;
+
+            }
+
+
+            .menu-title {
+
+                display: none;
+
+            }
+
+
+            .sidebar-menu {
+
+                display: flex;
+
+                flex-wrap: wrap;
+
+                gap: 5px;
+
+            }
+
+
+            .sidebar a {
+
+                margin: 0;
+
+                padding: 9px 11px;
+
+            }
+
+
+            .sidebar-bottom {
+
+                margin-top: 10px;
+
+                padding-top: 10px;
+
+            }
+
+
+            .main {
+
+                margin-left: 0;
+
+            }
+
+
+            .topbar {
+
+                padding: 0 18px;
+
+                height: 65px;
+
+            }
+
+
+            .topbar-title {
+
+                font-size: 17px;
+
+            }
+
+
+            .content {
+
+                padding: 20px 15px;
+
+            }
+
+
+            .header h1 {
+
+                font-size: 24px;
+
+            }
+
+
+            .cards {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .quick-actions {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =================================
+     SIDEBAR
+================================= -->
+
+<aside class="sidebar">
+
+
+    <div class="logo">
+
+        Rishi<span>Cart</span>
+
+    </div>
+
+
+    <div class="menu-title">
+
+        Main Menu
+
+    </div>
+
+
+    <div class="sidebar-menu">
+
+
+        <a
+            href="{% url 'dashboard' %}"
+            class="active"
+        >
+
+            🏠
+            <span>Dashboard</span>
+
+        </a>
+
+
+        <a href="{% url 'dashboard_users' %}">
+
+            👤
+            <span>Users</span>
+
+        </a>
+
+
+        <a href="{% url 'dashboard_products' %}">
+
+            📦
+            <span>Products</span>
+
+        </a>
+
+
+        <a href="{% url 'dashboard_categories' %}">
+
+            🗂
+            <span>Categories</span>
+
+        </a>
+
+
+        <a href="{% url 'dashboard_orders' %}">
+
+            🛒
+            <span>Orders</span>
+
+        </a>
+
+
+    </div>
+
+
+    <div class="sidebar-bottom">
+
+
+        <a href="{% url 'home' %}">
+
+            🌐
+            <span>Visit Store</span>
+
+        </a>
+
+
+        <a href="{% url 'logout' %}">
+
+            🚪
+            <span>Logout</span>
+
+        </a>
+
+
+    </div>
+
+
+</aside>
+
+
+
+<!-- =================================
+     MAIN
+================================= -->
+
+<main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+
+        <div class="topbar-title">
+
+            RishiCart Admin
+
+        </div>
+
+
+        <a
+            href="{% url 'home' %}"
+            class="store-link"
+        >
+
+            🌐 Visit Store →
+
+        </a>
+
+
+    </div>
+
+
+
+    <!-- CONTENT -->
+
+    <div class="content">
+
+
+        <!-- HEADER -->
+
+        <div class="header">
+
+            <h1>
+                Admin Dashboard
+            </h1>
+
+            <p>
+                Welcome to your RishiCart administration panel.
+                Manage your store from one place.
+            </p>
+
+        </div>
+
+
+
+        <!-- =================================
+             STAT CARDS
+        ================================= -->
+
+        <div class="cards">
+
+
+            <!-- USERS -->
+
+            <a
+                href="{% url 'dashboard_users' %}"
+                class="card"
+            >
+
+                <div class="card-top">
+
+                    <div class="card-title">
+                        TOTAL USERS
+                    </div>
+
+                    <div class="card-icon">
+                        👤
+                    </div>
+
+                </div>
+
+
+                <div class="number">
+
+                    {{ total_users }}
+
+                </div>
+
+
+                <div class="card-link">
+
+                    Manage Users →
+
+                </div>
+
+            </a>
+
+
+
+            <!-- PRODUCTS -->
+
+            <a
+                href="{% url 'dashboard_products' %}"
+                class="card"
+            >
+
+                <div class="card-top">
+
+                    <div class="card-title">
+                        TOTAL PRODUCTS
+                    </div>
+
+                    <div class="card-icon">
+                        📦
+                    </div>
+
+                </div>
+
+
+                <div class="number">
+
+                    {{ total_products }}
+
+                </div>
+
+
+                <div class="card-link">
+
+                    Manage Products →
+
+                </div>
+
+            </a>
+
+
+
+            <!-- CATEGORIES -->
+
+            <a
+                href="{% url 'dashboard_categories' %}"
+                class="card"
+            >
+
+                <div class="card-top">
+
+                    <div class="card-title">
+                        CATEGORIES
+                    </div>
+
+                    <div class="card-icon">
+                        🗂
+                    </div>
+
+                </div>
+
+
+                <div class="number">
+
+                    {{ total_categories }}
+
+                </div>
+
+
+                <div class="card-link">
+
+                    Manage Categories →
+
+                </div>
+
+            </a>
+
+
+
+            <!-- ORDERS -->
+
+            <a
+                href="{% url 'dashboard_orders' %}"
+                class="card"
+            >
+
+                <div class="card-top">
+
+                    <div class="card-title">
+                        TOTAL ORDERS
+                    </div>
+
+                    <div class="card-icon">
+                        🛒
+                    </div>
+
+                </div>
+
+
+                <div class="number">
+
+                    {{ total_orders }}
+
+                </div>
+
+
+                <div class="card-link">
+
+                    Manage Orders →
+
+                </div>
+
+            </a>
+
+
+        </div>
+
+
+
+        <!-- =================================
+             QUICK ACTIONS
+        ================================= -->
+
+        <div class="section">
+
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2>
+                        Quick Actions
+                    </h2>
+
+                    <p>
+                        Frequently used management options
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="quick-actions">
+
+
+                <a
+                    href="{% url 'dashboard_products' %}"
+                    class="action"
+                >
+
+                    <div class="action-icon">
+                        📦
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Manage Products
+                        </h3>
+
+                        <p>
+                            Add, edit or delete products
+                        </p>
+
+                    </div>
+
+                </a>
+
+
+
+                <a
+                    href="{% url 'dashboard_categories' %}"
+                    class="action"
+                >
+
+                    <div class="action-icon">
+                        🗂
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Manage Categories
+                        </h3>
+
+                        <p>
+                            Create and manage categories
+                        </p>
+
+                    </div>
+
+                </a>
+
+
+
+                <a
+                    href="{% url 'dashboard_orders' %}"
+                    class="action"
+                >
+
+                    <div class="action-icon">
+                        🛒
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Manage Orders
+                        </h3>
+
+                        <p>
+                            View customer orders
+                        </p>
+
+                    </div>
+
+                </a>
+
+
+
+                <a
+                    href="{% url 'dashboard_users' %}"
+                    class="action"
+                >
+
+                    <div class="action-icon">
+                        👥
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Manage Users
+                        </h3>
+
+                        <p>
+                            View registered customers
+                        </p>
+
+                    </div>
+
+                </a>
+
+
+
+                <a
+                    href="{% url 'dashboard_add_product' %}"
+                    class="action"
+                >
+
+                    <div class="action-icon">
+                        ➕
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Add Product
+                        </h3>
+
+                        <p>
+                            Add a new product to store
+                        </p>
+
+                    </div>
+
+                </a>
+
+
+
+                <a
+                    href="{% url 'home' %}"
+                    class="action"
+                >
+
+                    <div class="action-icon">
+                        🌐
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Visit Store
+                        </h3>
+
+                        <p>
+                            Open customer website
+                        </p>
+
+                    </div>
+
+                </a>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================
+             WELCOME BOX
+        ================================= -->
+
+        <div class="welcome-box">
+
+            <h2>
+                Welcome to RishiCart Admin 👋
+            </h2>
+
+            <p>
+                Manage your products, categories,
+                users and orders efficiently from
+                your custom admin dashboard.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+</body>
+
+</html>

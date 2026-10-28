@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Orders - RishiCart Dashboard</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f1f5f9;
+            color: #111827;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+
+            width: 240px;
+            height: 100vh;
+
+            background: #111827;
+
+            padding: 24px 14px;
+
+            overflow-y: auto;
+
+            z-index: 1000;
+        }
+
+
+        .logo {
+            color: white;
+
+            font-size: 25px;
+
+            font-weight: 800;
+
+            padding: 0 15px 25px;
+
+            border-bottom: 1px solid #374151;
+
+            margin-bottom: 25px;
+        }
+
+
+        .logo span {
+            color: #38bdf8;
+        }
+
+
+        .menu-title {
+            color: #6b7280;
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            padding: 0 15px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .sidebar a {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            color: #d1d5db;
+
+            padding: 12px 15px;
+
+            margin-bottom: 5px;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+            transition: .3s;
+        }
+
+
+        .sidebar a:hover {
+            background: #1f2937;
+            color: white;
+        }
+
+
+        .sidebar a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+
+        .sidebar-bottom {
+            margin-top: 25px;
+
+            padding-top: 20px;
+
+            border-top: 1px solid #374151;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            margin-left: 240px;
+
+            min-height: 100vh;
+        }
+
+
+        /* =========================
+           TOPBAR
+        ========================= */
+
+        .topbar {
+            height: 72px;
+
+            background: white;
+
+            border-bottom: 1px solid #e5e7eb;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 35px;
+        }
+
+
+        .topbar-title {
+            font-size: 20px;
+
+            font-weight: bold;
+
+            color: #111827;
+        }
+
+
+        .store-link {
+            color: #2563eb;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+
+        .store-link:hover {
+            color: #1d4ed8;
+        }
+
+
+        /* =========================
+           CONTENT
+        ========================= */
+
+        .content {
+            padding: 35px;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .header h1 {
+            font-size: 29px;
+
+            color: #111827;
+
+            margin-bottom: 7px;
+        }
+
+
+        .header p {
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           ORDER COUNT
+        ========================= */
+
+        .order-count {
+            background: white;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 9px;
+
+            padding: 12px 18px;
+
+            color: #475569;
+
+            font-size: 13px;
+
+            white-space: nowrap;
+        }
+
+
+        .order-count strong {
+            color: #111827;
+
+            font-size: 18px;
+
+            margin-right: 5px;
+        }
+
+
+        /* =========================
+           TABLE BOX
+        ========================= */
+
+        .table-box {
+            background: white;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 12px;
+
+            overflow: hidden;
+        }
+
+
+        .table-header {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 20px 22px;
+
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+
+        .table-header h2 {
+            font-size: 17px;
+
+            color: #111827;
+        }
+
+
+        .table-header p {
+            margin-top: 4px;
+
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-wrapper {
+            width: 100%;
+
+            overflow-x: auto;
+        }
+
+
+        table {
+            width: 100%;
+
+            min-width: 1000px;
+
+            border-collapse: collapse;
+        }
+
+
+        th,
+        td {
+            padding: 15px 18px;
+
+            text-align: left;
+
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+
+        th {
+            background: #f8fafc;
+
+            color: #475569;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            text-transform: uppercase;
+
+            letter-spacing: .3px;
+
+            white-space: nowrap;
+        }
+
+
+        td {
+            color: #374151;
+
+            font-size: 13px;
+
+            vertical-align: middle;
+        }
+
+
+        tbody tr {
+            transition: .2s;
+        }
+
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+
+        /* =========================
+           ORDER ID
+        ========================= */
+
+        .order-id {
+            color: #2563eb;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+        }
+
+
+        /* =========================
+           CUSTOMER
+        ========================= */
+
+        .customer-info {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .customer-avatar {
+            width: 36px;
+
+            height: 36px;
+
+            border-radius: 50%;
+
+            background: #eff6ff;
+
+            color: #2563eb;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            flex-shrink: 0;
+        }
+
+
+        .customer-name {
+            color: #111827;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           AMOUNT
+        ========================= */
+
+        .amount {
+            color: #111827;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+        }
+
+
+        /* =========================
+           PAYMENT METHOD
+        ========================= */
+
+        .payment-method {
+            display: inline-block;
+
+            background: #f1f5f9;
+
+            color: #475569;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+        }
+
+
+        /* =========================
+           PAYMENT STATUS
+        ========================= */
+
+        .payment-status {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+        }
+
+
+        .payment-status::before {
+            content: "";
+
+            width: 6px;
+
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: currentColor;
+        }
+
+
+        .payment-success {
+            background: #dcfce7;
+
+            color: #15803d;
+        }
+
+
+        .payment-pending {
+            background: #fef3c7;
+
+            color: #b45309;
+        }
+
+
+        .payment-failed {
+            background: #fee2e2;
+
+            color: #b91c1c;
+        }
+
+
+        /* =========================
+           ORDER STATUS
+        ========================= */
+
+        .order-status {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+        }
+
+
+        .order-status::before {
+            content: "";
+
+            width: 6px;
+
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: currentColor;
+        }
+
+
+        .status-confirmed {
+            background: #dcfce7;
+
+            color: #15803d;
+        }
+
+
+        .status-pending {
+            background: #fef3c7;
+
+            color: #b45309;
+        }
+
+
+        .status-cancelled {
+            background: #fee2e2;
+
+            color: #b91c1c;
+        }
+
+
+        .status-delivered {
+            background: #dbeafe;
+
+            color: #1d4ed8;
+        }
+
+
+        .status-default {
+            background: #f1f5f9;
+
+            color: #475569;
+        }
+
+
+        /* =========================
+           DATE
+        ========================= */
+
+        .date {
+            color: #64748b;
+
+            white-space: nowrap;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty {
+            text-align: center;
+
+            padding: 70px 20px !important;
+
+            color: #64748b;
+        }
+
+
+        .empty-icon {
+            width: 65px;
+
+            height: 65px;
+
+            margin: 0 auto 15px;
+
+            border-radius: 50%;
+
+            background: #f1f5f9;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 27px;
+        }
+
+
+        .empty strong {
+            display: block;
+
+            color: #374151;
+
+            margin-bottom: 5px;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+                width: 210px;
+            }
+
+
+            .main {
+                margin-left: 210px;
+            }
+
+
+            .content {
+                padding: 25px;
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
+            .sidebar {
+                position: relative;
+
+                width: 100%;
+
+                height: auto;
+
+                padding: 15px;
+            }
+
+
+            .logo {
+                margin-bottom: 15px;
+
+                padding-bottom: 15px;
+            }
+
+
+            .menu-title {
+                display: none;
+            }
+
+
+            .sidebar-menu {
+                display: flex;
+
+                flex-wrap: wrap;
+
+                gap: 5px;
+            }
+
+
+            .sidebar a {
+                margin: 0;
+
+                padding: 9px 11px;
+            }
+
+
+            .sidebar-bottom {
+                margin-top: 10px;
+
+                padding-top: 10px;
+            }
+
+
+            .main {
+                margin-left: 0;
+            }
+
+
+            .topbar {
+                height: 65px;
+
+                padding: 0 18px;
+            }
+
+
+            .topbar-title {
+                font-size: 17px;
+            }
+
+
+            .content {
+                padding: 20px 15px;
+            }
+
+
+            .header {
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+
+            .order-count {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+
+    <div class="logo">
+
+        Rishi<span>Cart</span>
+
+    </div>
+
+
+    <div class="menu-title">
+
+        Main Menu
+
+    </div>
+
+
+    <div class="sidebar-menu">
+
+
+        <a href="{% url 'dashboard' %}">
+
+            🏠
+            <span>Dashboard</span>
+
+        </a>
+
+
+        <a href="{% url 'dashboard_users' %}">
+
+            👤
+            <span>Users</span>
+
+        </a>
+
+
+        <a href="{% url 'dashboard_products' %}">
+
+            📦
+            <span>Products</span>
+
+        </a>
+
+
+        <a href="{% url 'dashboard_categories' %}">
+
+            🗂
+            <span>Categories</span>
+
+        </a>
+
+
+        <a
+            href="{% url 'dashboard_orders' %}"
+            class="active"
+        >
+
+            🛒
+            <span>Orders</span>
+
+        </a>
+
+
+    </div>
+
+
+    <div class="sidebar-bottom">
+
+
+        <a href="{% url 'home' %}">
+
+            🌐
+            <span>Visit Store</span>
+
+        </a>
+
+
+        <a href="{% url 'logout' %}">
+
+            🚪
+            <span>Logout</span>
+
+        </a>
+
+
+    </div>
+
+
+</aside>
+
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+
+        <div class="topbar-title">
+
+            RishiCart Admin
+
+        </div>
+
+
+        <a
+            href="{% url 'home' %}"
+            class="store-link"
+        >
+
+            🌐 Visit Store →
+
+        </a>
+
+
+    </div>
+
+
+
+    <!-- CONTENT -->
+
+    <div class="content">
+
+
+        <!-- HEADER -->
+
+        <div class="header">
+
+
+            <div>
+
+                <h1>
+                    Orders
+                </h1>
+
+                <p>
+                    Manage and monitor customer orders
+                </p>
+
+            </div>
+
+
+            <div class="order-count">
+
+                <strong>
+                    {{ orders|length }}
+                </strong>
+
+                Total Orders
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =========================
+             ORDERS TABLE
+        ========================= -->
+
+        <div class="table-box">
+
+
+            <div class="table-header">
+
+
+                <div>
+
+                    <h2>
+                        Order Management
+                    </h2>
+
+                    <p>
+                        View payment details, customer
+                        information and order status.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="table-wrapper">
+
+
+                <table>
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Order
+                            </th>
+
+                            <th>
+                                Customer
+                            </th>
+
+                            <th>
+                                Total Amount
+                            </th>
+
+                            <th>
+                                Payment Method
+                            </th>
+
+                            <th>
+                                Payment Status
+                            </th>
+
+                            <th>
+                                Order Status
+                            </th>
+
+                            <th>
+                                Date
+                            </th>
+
+                            <th>
+                                Actions
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        {% for order in orders %}
+
+
+                        <tr>
+
+
+                            <!-- ORDER ID -->
+
+                            <td>
+
+                                <span class="order-id">
+
+                                    #{{ order.id }}
+
+                                </span>
+
+                            </td>
+
+
+                            <!-- CUSTOMER -->
+
+                            <td>
+
+
+                                <div class="customer-info">
+
+
+                                    <div class="customer-avatar">
+
+                                        {{ order.user.username|first|upper }}
+
+                                    </div>
+
+
+                                    <div class="customer-name">
+
+                                        {{ order.user.username }}
+
+                                    </div>
+
+
+                                </div>
+
+
+                            </td>
+
+
+                            <!-- AMOUNT -->
+
+                            <td>
+
+                                <span class="amount">
+
+                                    ₹{{ order.total_amount }}
+
+                                </span>
+
+                            </td>
+
+
+                            <!-- PAYMENT METHOD -->
+
+                            <td>
+
+                                <span class="payment-method">
+
+                                    {{ order.payment_method }}
+
+                                </span>
+
+                            </td>
+
+
+                            <!-- PAYMENT STATUS -->
+
+                            <td>
+
+
+                                {% if order.payment_status == "Paid" %}
+
+                                    <span class="payment-status payment-success">
+
+                                        {{ order.payment_status }}
+
+                                    </span>
+
+                                {% elif order.payment_status == "Failed" %}
+
+                                    <span class="payment-status payment-failed">
+
+                                        {{ order.payment_status }}
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="payment-status payment-pending">
+
+                                        {{ order.payment_status }}
+
+                                    </span>
+
+                                {% endif %}
+
+
+                            </td>
+
+
+                            <!-- ORDER STATUS -->
+
+                            <td>
+
+
+                                {% if order.status == "Confirmed" %}
+                                    <span class="order-status status-confirmed">Confirmed</span>
+                                {% elif order.status == "Packed" %}
+                                    <span class="order-status status-packed" style="background:#e0e7ff; color:#4338ca;">📦 Packed</span>
+                                {% elif order.status == "Shipped" %}
+                                    <span class="order-status status-shipped" style="background:#f3e8ff; color:#7e22ce;">🚚 Shipped</span>
+                                {% elif order.status == "Out for Delivery" %}
+                                    <span class="order-status status-out" style="background:#ffedd5; color:#c2410c;">🛵 Out for Delivery</span>
+                                {% elif order.status == "Delivered" %}
+                                    <span class="order-status status-delivered">✅ Delivered</span>
+                                {% elif order.status == "Cancelled" %}
+                                    <span class="order-status status-cancelled">❌ Cancelled</span>
+                                {% elif "Return" in order.status %}
+                                    <span class="order-status" style="background:#fef3c7; color:#b45309;">🔄 {{ order.status }}</span>
+                                {% elif "Replace" in order.status %}
+                                    <span class="order-status" style="background:#ccfbf1; color:#0f766e;">🔁 {{ order.status }}</span>
+                                {% elif order.status == "Pending" %}
+                                    <span class="order-status status-pending">Pending</span>
+                                {% else %}
+                                    <span class="order-status status-default">{{ order.status }}</span>
+                                {% endif %}
+                            </td>
+
+
+                            <!-- DATE -->
+                            <td>
+                                <div class="date">
+                                    {{ order.created_at|date:"d M Y" }}
+                                    <br>
+                                    {{ order.created_at|date:"h:i A" }}
+                                </div>
+                            </td>
+
+                            <!-- ACTIONS -->
+                            <td>
+                                <button type="button" class="btn-update-order" style="padding:7px 12px; background:#2563eb; color:white; border:none; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer;" onclick="openAdminOrderModal('{{ order.id }}', '{{ order.status|escapejs }}', '{{ order.current_location|default:order.display_location|escapejs }}', '{{ order.courier_name|escapejs }}', '{{ order.tracking_id|escapejs }}')">
+                                    ✏️ Update
+                                </button>
+                            </td>
+
+                        </tr>
+
+
+                        {% empty %}
+
+
+                        <tr>
+
+                            <td
+                                colspan="8"
+                                class="empty"
+                            >
+
+
+                                <div class="empty-icon">
+
+                                    🛒
+
+                                </div>
+
+
+                                <strong>
+
+                                    No Orders Found
+
+                                </strong>
+
+
+                                There are currently no customer
+                                orders in your store.
+
+
+                            </td>
+
+                        </tr>
+
+
+                        {% endfor %}
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- ADMIN ORDER STATUS UPDATE MODAL -->
+    <div id="adminOrderModal" style="display:none; position:fixed; inset:0; background:rgba(15,23,42,0.65); backdrop-filter:blur(4px); z-index:2000; align-items:center; justify-content:center; padding:20px;">
+        <div style="background:white; border-radius:14px; max-width:480px; width:100%; padding:25px; box-shadow:0 20px 40px rgba(0,0,0,0.2);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+                <h3 style="font-size:18px; color:#0f172a; margin:0;" id="adminModalTitle">Update Order Status</h3>
+                <button type="button" style="background:none; border:none; font-size:24px; cursor:pointer; color:#64748b;" onclick="closeAdminOrderModal()">&times;</button>
+            </div>
+            <form id="adminOrderForm" method="POST" action="">
+                {% csrf_token %}
+                <div style="margin-bottom:14px;">
+                    <label style="display:block; font-size:13px; font-weight:600; color:#334155; margin-bottom:5px;">Order Status:</label>
+                    <select name="status" id="admin_order_status" style="width:100%; padding:9px 12px; border:1px solid #cbd5e1; border-radius:7px; font-size:14px;" required>
+                        <option value="Pending">Pending</option>
+                        <option value="Confirmed">Confirmed</option>
+                        <option value="Packed">Packed</option>
+                        <option value="Shipped">Shipped</option>
+                        <option value="Out for Delivery">Out for Delivery</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Cancelled">Cancelled</option>
+                        <option value="Return Requested">Return Requested</option>
+                        <option value="Returned">Returned</option>
+                        <option value="Replacement Requested">Replacement Requested</option>
+                        <option value="Replaced">Replaced</option>
+                    </select>
+                </div>
+                <div style="margin-bottom:14px;">
+                    <label style="display:block; font-size:13px; font-weight:600; color:#334155; margin-bottom:5px;">Current Item Location / Hub Address (Shows in Tracking):</label>
+                    <input type="text" name="current_location" id="admin_current_location" style="width:100%; padding:9px 12px; border:1px solid #cbd5e1; border-radius:7px; font-size:14px;" placeholder="e.g. BlueDart Sorting Hub, Sector 62, Noida">
+                </div>
+                <div style="margin-bottom:14px;">
+                    <label style="display:block; font-size:13px; font-weight:600; color:#334155; margin-bottom:5px;">Courier Partner:</label>
+                    <input type="text" name="courier_partner" id="admin_courier_partner" style="width:100%; padding:9px 12px; border:1px solid #cbd5e1; border-radius:7px; font-size:14px;" placeholder="e.g. BlueDart Express, Delhivery">
+                </div>
+                <div style="margin-bottom:18px;">
+                    <label style="display:block; font-size:13px; font-weight:600; color:#334155; margin-bottom:5px;">Tracking Number (AWB):</label>
+                    <input type="text" name="tracking_number" id="admin_tracking_number" style="width:100%; padding:9px 12px; border:1px solid #cbd5e1; border-radius:7px; font-size:14px;" placeholder="e.g. RC-BLD-8874102">
+                </div>
+                <div style="display:flex; justify-content:flex-end; gap:10px;">
+                    <button type="button" style="padding:9px 16px; border-radius:7px; background:#f1f5f9; border:1px solid #cbd5e1; cursor:pointer;" onclick="closeAdminOrderModal()">Cancel</button>
+                    <button type="submit" style="padding:9px 18px; border-radius:7px; background:#2563eb; color:white; border:none; font-weight:600; cursor:pointer;">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openAdminOrderModal(orderId, status, location, courier, tracking) {
+            const modal = document.getElementById("adminOrderModal");
+            const form = document.getElementById("adminOrderForm");
+            const title = document.getElementById("adminModalTitle");
+            const statusSelect = document.getElementById("admin_order_status");
+            const locationInput = document.getElementById("admin_current_location");
+            const courierInput = document.getElementById("admin_courier_partner");
+            const trackingInput = document.getElementById("admin_tracking_number");
+
+            form.action = "/dashboard/orders/update/" + orderId + "/";
+            title.textContent = "Update Order #" + orderId;
+            statusSelect.value = status || "Pending";
+            locationInput.value = location || "";
+            courierInput.value = courier || "BlueDart Express";
+            trackingInput.value = tracking || "";
+
+            modal.style.display = "flex";
+        }
+
+        function closeAdminOrderModal() {
+            document.getElementById("adminOrderModal").style.display = "none";
+        }
+
+        window.addEventListener("click", function(e) {
+            const modal = document.getElementById("adminOrderModal");
+            if (e.target === modal) {
+                modal.style.display = "none";
+            }
+        });
+    </script>
+</body>
+</html>

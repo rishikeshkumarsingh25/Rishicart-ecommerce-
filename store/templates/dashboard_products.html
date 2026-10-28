@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Products - RishiCart Dashboard</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f1f5f9;
+            color: #111827;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+
+            width: 240px;
+
+            height: 100vh;
+
+            background: #111827;
+
+            padding: 24px 14px;
+
+            overflow-y: auto;
+
+            z-index: 1000;
+        }
+
+
+        .logo {
+
+            color: white;
+
+            font-size: 25px;
+
+            font-weight: 800;
+
+            padding: 0 15px 25px;
+
+            border-bottom: 1px solid #374151;
+
+            margin-bottom: 25px;
+        }
+
+
+        .logo span {
+            color: #38bdf8;
+        }
+
+
+        .menu-title {
+
+            color: #6b7280;
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            padding: 0 15px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .sidebar a {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            color: #d1d5db;
+
+            padding: 12px 15px;
+
+            margin-bottom: 5px;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+            transition: .3s;
+        }
+
+
+        .sidebar a:hover {
+
+            background: #1f2937;
+
+            color: white;
+        }
+
+
+        .sidebar a.active {
+
+            background: #2563eb;
+
+            color: white;
+        }
+
+
+        .sidebar-bottom {
+
+            margin-top: 25px;
+
+            padding-top: 20px;
+
+            border-top: 1px solid #374151;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+
+            margin-left: 240px;
+
+            min-height: 100vh;
+        }
+
+
+        /* =========================
+           TOPBAR
+        ========================= */
+
+        .topbar {
+
+            height: 72px;
+
+            background: white;
+
+            border-bottom: 1px solid #e5e7eb;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 35px;
+        }
+
+
+        .topbar-title {
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            color: #111827;
+        }
+
+
+        .store-link {
+
+            color: #2563eb;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+
+        .store-link:hover {
+
+            color: #1d4ed8;
+        }
+
+
+        /* =========================
+           CONTENT
+        ========================= */
+
+        .content {
+
+            padding: 35px;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .header h1 {
+
+            font-size: 29px;
+
+            color: #111827;
+
+            margin-bottom: 7px;
+        }
+
+
+        .header p {
+
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           ADD PRODUCT BUTTON
+        ========================= */
+
+        .add-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            background: #2563eb;
+
+            color: white;
+
+            padding: 12px 18px;
+
+            border-radius: 7px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+
+            transition: .3s;
+        }
+
+
+        .add-btn:hover {
+
+            background: #1d4ed8;
+
+            transform: translateY(-1px);
+        }
+
+
+        /* =========================
+           TABLE CARD
+        ========================= */
+
+        .table-box {
+
+            background: white;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 12px;
+
+            overflow: hidden;
+        }
+
+
+        .table-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 20px 22px;
+
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+
+        .table-header h2 {
+
+            font-size: 17px;
+
+            color: #111827;
+        }
+
+
+        .table-header p {
+
+            margin-top: 4px;
+
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
+
+        .product-count {
+
+            color: #475569;
+
+            font-size: 13px;
+        }
+
+
+        .product-count strong {
+
+            color: #111827;
+
+            font-size: 18px;
+
+            margin-right: 4px;
+        }
+
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-wrapper {
+
+            width: 100%;
+
+            overflow-x: auto;
+        }
+
+
+        table {
+
+            width: 100%;
+
+            min-width: 900px;
+
+            border-collapse: collapse;
+        }
+
+
+        th,
+        td {
+
+            padding: 15px 18px;
+
+            text-align: left;
+
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+
+        th {
+
+            background: #f8fafc;
+
+            color: #475569;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            text-transform: uppercase;
+
+            letter-spacing: .3px;
+
+            white-space: nowrap;
+        }
+
+
+        td {
+
+            color: #374151;
+
+            font-size: 13px;
+
+            vertical-align: middle;
+        }
+
+
+        tbody tr {
+
+            transition: .2s;
+        }
+
+
+        tbody tr:hover {
+
+            background: #f8fafc;
+        }
+
+
+        tbody tr:last-child td {
+
+            border-bottom: none;
+        }
+
+
+        /* =========================
+           PRODUCT
+        ========================= */
+
+        .product-info {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            min-width: 190px;
+        }
+
+
+        .product-image {
+
+            width: 58px;
+
+            height: 58px;
+
+            object-fit: cover;
+
+            border-radius: 8px;
+
+            border: 1px solid #e5e7eb;
+
+            background: #f8fafc;
+
+            flex-shrink: 0;
+        }
+
+
+        .no-image {
+
+            width: 58px;
+
+            height: 58px;
+
+            background: #f1f5f9;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 8px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: #94a3b8;
+
+            font-size: 11px;
+
+            flex-shrink: 0;
+        }
+
+
+        .product-name {
+
+            color: #111827;
+
+            font-weight: bold;
+
+            line-height: 1.4;
+        }
+
+
+        .product-slug {
+
+            color: #94a3b8;
+
+            font-size: 11px;
+
+            margin-top: 3px;
+
+            max-width: 140px;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+        }
+
+
+        /* =========================
+           CATEGORY
+        ========================= */
+
+        .category-badge {
+
+            display: inline-block;
+
+            background: #eff6ff;
+
+            color: #2563eb;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+        }
+
+
+        /* =========================
+           PRICE
+        ========================= */
+
+        .price {
+
+            color: #111827;
+
+            font-weight: bold;
+
+            font-size: 14px;
+
+            white-space: nowrap;
+        }
+
+
+        /* =========================
+           STOCK
+        ========================= */
+
+        .stock {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+        }
+
+
+        .stock::before {
+
+            content: "";
+
+            width: 6px;
+
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: currentColor;
+        }
+
+
+        .stock-available {
+
+            background: #dcfce7;
+
+            color: #15803d;
+        }
+
+
+        .stock-low {
+
+            background: #fef3c7;
+
+            color: #b45309;
+        }
+
+
+        .stock-out {
+
+            background: #fee2e2;
+
+            color: #b91c1c;
+        }
+
+
+        /* =========================
+           AVAILABILITY
+        ========================= */
+
+        .available {
+
+            display: inline-block;
+
+            background: #dcfce7;
+
+            color: #15803d;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+
+            font-weight: bold;
+        }
+
+
+        .unavailable {
+
+            display: inline-block;
+
+            background: #fee2e2;
+
+            color: #b91c1c;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           ACTIONS
+        ========================= */
+
+        .actions {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            white-space: nowrap;
+        }
+
+
+        .action-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 7px 10px;
+
+            border-radius: 6px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            color: white;
+
+            transition: .2s;
+        }
+
+
+        .view-btn {
+
+            background: #16a34a;
+        }
+
+
+        .view-btn:hover {
+
+            background: #15803d;
+        }
+
+
+        .edit-btn {
+
+            background: #2563eb;
+        }
+
+
+        .edit-btn:hover {
+
+            background: #1d4ed8;
+        }
+
+
+        .delete-btn {
+
+            background: #dc2626;
+        }
+
+
+        .delete-btn:hover {
+
+            background: #b91c1c;
+        }
+
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty {
+
+            text-align: center;
+
+            padding: 70px 20px !important;
+
+            color: #64748b;
+        }
+
+
+        .empty-icon {
+
+            width: 65px;
+
+            height: 65px;
+
+            margin: 0 auto 15px;
+
+            border-radius: 50%;
+
+            background: #f1f5f9;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 27px;
+        }
+
+
+        .empty strong {
+
+            display: block;
+
+            color: #374151;
+
+            margin-bottom: 5px;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+
+                width: 210px;
+            }
+
+
+            .main {
+
+                margin-left: 210px;
+            }
+
+
+            .content {
+
+                padding: 25px;
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
+            .sidebar {
+
+                position: relative;
+
+                width: 100%;
+
+                height: auto;
+
+                padding: 15px;
+            }
+
+
+            .logo {
+
+                margin-bottom: 15px;
+
+                padding-bottom: 15px;
+            }
+
+
+            .menu-title {
+
+                display: none;
+            }
+
+
+            .sidebar-menu {
+
+                display: flex;
+
+                flex-wrap: wrap;
+
+                gap: 5px;
+            }
+
+
+            .sidebar a {
+
+                margin: 0;
+
+                padding: 9px 11px;
+            }
+
+
+            .sidebar-bottom {
+
+                margin-top: 10px;
+
+                padding-top: 10px;
+            }
+
+
+            .main {
+
+                margin-left: 0;
+            }
+
+
+            .topbar {
+
+                height: 65px;
+
+                padding: 0 18px;
+            }
+
+
+            .topbar-title {
+
+                font-size: 17px;
+            }
+
+
+            .content {
+
+                padding: 20px 15px;
+            }
+
+
+            .header {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+
+            .header h1 {
+
+                font-size: 24px;
+            }
+
+
+            .add-btn {
+
+                width: 100%;
+
+                justify-content: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+
+    <div class="logo">
+
+        Rishi<span>Cart</span>
+
+    </div>
+
+
+    <div class="menu-title">
+
+        Main Menu
+
+    </div>
+
+
+    <div class="sidebar-menu">
+
+
+        <a href="{% url 'dashboard' %}">
+
+            🏠
+            <span>Dashboard</span>
+
+        </a>
+
+
+        <a href="{% url 'dashboard_users' %}">
+
+            👤
+            <span>Users</span>
+
+        </a>
+
+
+        <a
+            href="{% url 'dashboard_products' %}"
+            class="active"
+        >
+
+            📦
+            <span>Products</span>
+
+        </a>
+
+
+        <a href="{% url 'dashboard_categories' %}">
+
+            🗂
+            <span>Categories</span>
+
+        </a>
+
+
+        <a href="{% url 'dashboard_orders' %}">
+
+            🛒
+            <span>Orders</span>
+
+        </a>
+
+
+    </div>
+
+
+    <div class="sidebar-bottom">
+
+
+        <a href="{% url 'home' %}">
+
+            🌐
+            <span>Visit Store</span>
+
+        </a>
+
+
+        <a href="{% url 'logout' %}">
+
+            🚪
+            <span>Logout</span>
+
+        </a>
+
+
+    </div>
+
+
+</aside>
+
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+
+        <div class="topbar-title">
+
+            RishiCart Admin
+
+        </div>
+
+
+        <a
+            href="{% url 'home' %}"
+            class="store-link"
+        >
+
+            🌐 Visit Store →
+
+        </a>
+
+
+    </div>
+
+
+
+    <!-- CONTENT -->
+
+    <div class="content">
+
+
+        <!-- HEADER -->
+
+        <div class="header">
+
+
+            <div>
+
+                <h1>
+                    Products
+                </h1>
+
+                <p>
+                    Manage your RishiCart product catalog
+                </p>
+
+            </div>
+
+
+            <a
+                href="{% url 'dashboard_add_product' %}"
+                class="add-btn"
+            >
+
+                ＋ Add Product
+
+            </a>
+
+
+        </div>
+
+
+
+        <!-- =========================
+             PRODUCT TABLE
+        ========================= -->
+
+        <div class="table-box">
+
+
+            <div class="table-header">
+
+
+                <div>
+
+                    <h2>
+                        Product Management
+                    </h2>
+
+                    <p>
+                        View, edit or remove products
+                        from your store.
+                    </p>
+
+                </div>
+
+
+                <div class="product-count">
+
+                    <strong>
+                        {{ products|length }}
+                    </strong>
+
+                    Products
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="table-wrapper">
+
+
+                <table>
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Product
+                            </th>
+
+                            <th>
+                                Category
+                            </th>
+
+                            <th>
+                                Price
+                            </th>
+
+                            <th>
+                                Stock
+                            </th>
+
+                            <th>
+                                Availability
+                            </th>
+
+                            <th>
+                                Actions
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        {% for product in products %}
+
+
+                        <tr>
+
+
+                            <!-- PRODUCT -->
+
+                            <td>
+
+
+                                <div class="product-info">
+
+
+                                    {% if product.image %}
+
+                                        <img
+                                            src="{{ product.image.url }}"
+                                            class="product-image"
+                                            alt="{{ product.name }}"
+                                        >
+
+                                    {% else %}
+
+                                        <div class="no-image">
+
+                                            No Image
+
+                                        </div>
+
+                                    {% endif %}
+
+
+                                    <div>
+
+
+                                        <div class="product-name">
+
+                                            {{ product.name }}
+
+                                        </div>
+
+
+                                        <div class="product-slug">
+
+                                            {{ product.slug }}
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+
+
+                            </td>
+
+
+                            <!-- CATEGORY -->
+
+                            <td>
+
+                                <span class="category-badge">
+
+                                    {{ product.category.name }}
+
+                                </span>
+
+                            </td>
+
+
+                            <!-- PRICE -->
+
+                            <td>
+
+                                <span class="price">
+
+                                    ₹{{ product.price }}
+
+                                </span>
+
+                            </td>
+
+
+                            <!-- STOCK -->
+
+                            <td>
+
+
+                                {% if product.stock == 0 %}
+
+                                    <span class="stock stock-out">
+
+                                        Out of Stock
+
+                                    </span>
+
+                                {% elif product.stock <= 5 %}
+
+                                    <span class="stock stock-low">
+
+                                        {{ product.stock }} left
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="stock stock-available">
+
+                                        {{ product.stock }} available
+
+                                    </span>
+
+                                {% endif %}
+
+
+                            </td>
+
+
+                            <!-- AVAILABILITY -->
+
+                            <td>
+
+
+                                {% if product.is_available %}
+
+                                    <span class="available">
+
+                                        Available
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="unavailable">
+
+                                        Unavailable
+
+                                    </span>
+
+                                {% endif %}
+
+
+                            </td>
+
+
+                            <!-- ACTIONS -->
+
+                            <td>
+
+
+                                <div class="actions">
+
+
+                                    <a
+                                        href="{% url 'product_detail' product.slug %}"
+                                        class="action-btn view-btn"
+                                    >
+                                        View
+                                    </a>
+
+
+                                    <a
+                                        href="{% url 'edit_product' product.id %}"
+                                        class="action-btn edit-btn"
+                                    >
+                                        Edit
+                                    </a>
+
+
+                                    <a
+                                        href="{% url 'delete_product' product.id %}"
+                                        class="action-btn delete-btn"
+                                        onclick="return confirm('Are you sure you want to delete this product?');"
+                                    >
+                                        Delete
+                                    </a>
+
+
+                                </div>
+
+
+                            </td>
+
+
+                        </tr>
+
+
+                        {% empty %}
+
+
+                        <tr>
+
+                            <td
+                                colspan="6"
+                                class="empty"
+                            >
+
+
+                                <div class="empty-icon">
+
+                                    📦
+
+                                </div>
+
+
+                                <strong>
+
+                                    No Products Found
+
+                                </strong>
+
+
+                                There are currently no products
+                                in your store.
+
+
+                            </td>
+
+                        </tr>
+
+
+                        {% endfor %}
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+</body>
+
+</html>

@@ -1,0 +1,635 @@
+/* ==========================================================================
+   FLIPKART UI DESIGN SYSTEM (RishiCart)
+   Colors:
+   - Primary Blue: #2874f0
+   - Dark Navy (Footer): #172337
+   - Page Background: #f1f3f6
+   - Surface/Card: #ffffff
+   - Text Primary: #212121
+   - Text Muted: #878787
+   - Green (Offer/Rating): #388e3c
+   - Flipkart Yellow: #ffe500
+   - Add to Cart: #ff9f00
+   - Buy Now / Action: #fb641b
+   - Border Color: #f0f0f0 / #e0e0e0
+   ========================================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    background: #f1f3f6;
+    color: #212121;
+    font-size: 14px;
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    font-family: inherit;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+input, select, textarea {
+    font-family: inherit;
+}
+
+/* ==========================================================================
+   FLIPKART HEADER
+   ========================================================================== */
+.fk-header {
+    background: #2874f0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+
+.fk-header-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    height: 56px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+/* BRAND LOGO */
+.fk-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-decoration: none;
+    min-width: 130px;
+}
+
+.fk-logo-text {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 800;
+    font-style: italic;
+    letter-spacing: -0.5px;
+    line-height: 1;
+}
+
+.fk-logo-sub {
+    font-size: 11px;
+    color: #f0f0f0;
+    font-style: italic;
+    letter-spacing: 0.2px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin-top: 2px;
+}
+
+.fk-logo-sub .plus-badge {
+    color: #ffe500;
+    font-weight: 700;
+}
+
+.fk-logo-sub .plus-icon {
+    color: #ffe500;
+    font-size: 10px;
+}
+
+/* SEARCH BAR */
+.fk-search-box {
+    flex: 1;
+    max-width: 560px;
+    position: relative;
+}
+
+.fk-search-form {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border-radius: 2px;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.23);
+    overflow: hidden;
+    height: 36px;
+}
+
+.fk-search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 0 16px;
+    font-size: 14px;
+    color: #212121;
+}
+
+.fk-search-input::placeholder {
+    color: #878787;
+}
+
+.fk-search-btn {
+    background: #ffffff;
+    padding: 0 14px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2874f0;
+    cursor: pointer;
+    border: none;
+}
+
+.fk-search-btn svg {
+    width: 17px;
+    height: 17px;
+    fill: #2874f0;
+}
+
+/* NAV ACTIONS */
+.fk-nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* LOGIN BUTTON */
+.fk-login-btn {
+    background: #ffffff;
+    color: #2874f0;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 5px 32px;
+    border-radius: 2px;
+    border: 1px solid #dbdbdb;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.fk-login-btn:hover {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* USER DROPDOWN */
+.fk-user-dropdown {
+    position: relative;
+    cursor: pointer;
+}
+
+.fk-user-btn {
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 0;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+}
+
+.fk-user-btn svg {
+    width: 10px;
+    height: 10px;
+    fill: #ffffff;
+    transition: transform 0.2s ease;
+}
+
+.fk-user-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #ffffff;
+    min-width: 210px;
+    border-radius: 2px;
+    box-shadow: 0 4px 16px 0 rgba(0,0,0,.2);
+    display: none;
+    flex-direction: column;
+    padding: 6px 0;
+    z-index: 1001;
+}
+
+.fk-user-dropdown:hover .fk-user-menu,
+.fk-user-dropdown:focus-within .fk-user-menu {
+    display: flex;
+}
+
+.fk-user-dropdown:hover .fk-user-btn svg {
+    transform: rotate(180deg);
+}
+
+.fk-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    color: #212121;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.15s ease;
+    text-decoration: none;
+}
+
+.fk-menu-item:hover {
+    background: #f1f3f6;
+    color: #2874f0;
+}
+
+.fk-menu-divider {
+    height: 1px;
+    background: #f0f0f0;
+    margin: 4px 0;
+}
+
+/* NAV LINKS */
+.fk-nav-link {
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    text-decoration: none;
+    padding: 6px 4px;
+    cursor: pointer;
+}
+
+.fk-nav-link:hover {
+    color: #ffe500;
+}
+
+/* CART BUTTON */
+.fk-cart-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.fk-cart-icon-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.fk-cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background: #ff6161;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 50%;
+    min-width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    border: 1px solid #ffffff;
+}
+
+/* ==========================================================================
+   FLIPKART SECONDARY CATEGORY BAR (White strip)
+   ========================================================================== */
+.fk-cat-bar {
+    background: #ffffff;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,.16);
+    margin-bottom: 10px;
+}
+
+.fk-cat-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.fk-cat-inner::-webkit-scrollbar {
+    display: none;
+}
+
+.fk-cat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+    color: #212121;
+    min-width: 72px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.fk-cat-item:hover {
+    color: #2874f0;
+}
+
+.fk-cat-icon {
+    font-size: 26px;
+    line-height: 1;
+}
+
+.fk-cat-name {
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* ==========================================================================
+   FLIPKART PRODUCT CARDS
+   ========================================================================== */
+.fk-product-card {
+    background: #ffffff;
+    border-radius: 2px;
+    border: 1px solid #f0f0f0;
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.fk-product-card:hover {
+    box-shadow: 0 4px 14px 0 rgba(0,0,0,.15);
+    border-color: #2874f0;
+    transform: translateY(-2px);
+}
+
+.fk-card-img-wrap {
+    width: 100%;
+    height: 190px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.fk-card-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 0.25s ease;
+}
+
+.fk-product-card:hover .fk-card-img {
+    transform: scale(1.05);
+}
+
+.fk-wishlist-btn {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.9);
+    border: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    color: #c2c2c2;
+    cursor: pointer;
+    transition: color 0.2s;
+    z-index: 2;
+}
+
+.fk-wishlist-btn:hover {
+    color: #ff4343;
+}
+
+.fk-card-cat {
+    color: #878787;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.fk-card-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #212121;
+    line-height: 1.3;
+    margin-bottom: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 36px;
+}
+
+.fk-rating-badge {
+    background: #388e3c;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    width: fit-content;
+    margin-bottom: 6px;
+}
+
+.fk-rating-count {
+    color: #878787;
+    font-size: 12px;
+    margin-left: 6px;
+}
+
+.fk-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
+
+.fk-current-price {
+    font-size: 16px;
+    font-weight: 700;
+    color: #212121;
+}
+
+.fk-original-price {
+    font-size: 13px;
+    color: #878787;
+    text-decoration: line-through;
+}
+
+.fk-discount-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: #388e3c;
+}
+
+.fk-delivery-tag {
+    font-size: 12px;
+    color: #212121;
+    margin-top: 6px;
+    font-weight: 500;
+}
+
+.fk-assured-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 4px;
+}
+
+.fk-assured-pill {
+    background: #007185;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    font-style: italic;
+    padding: 1px 6px;
+    border-radius: 2px;
+}
+
+/* ==========================================================================
+   FLIPKART FOOTER
+   ========================================================================== */
+.fk-footer {
+    background: #172337;
+    color: #ffffff;
+    margin-top: 40px;
+    font-size: 12px;
+}
+
+.fk-footer-main {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 40px 16px 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    border-bottom: 1px solid #454d5e;
+}
+
+.fk-footer-col h4 {
+    color: #878787;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 14px;
+}
+
+.fk-footer-col a {
+    display: block;
+    color: #ffffff;
+    font-size: 12px;
+    margin-bottom: 8px;
+    transition: color 0.2s ease;
+}
+
+.fk-footer-col a:hover {
+    color: #2874f0;
+    text-decoration: underline;
+}
+
+.fk-footer-col p {
+    color: #ffffff;
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.fk-footer-bottom {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 24px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.fk-footer-bottom-items {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.fk-footer-bottom-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.fk-footer-bottom-item span {
+    color: #ffe500;
+}
+
+.fk-copyright {
+    color: #878787;
+    font-size: 12px;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+@media (max-width: 768px) {
+    .fk-header-inner {
+        height: auto;
+        padding: 10px 12px;
+        flex-wrap: wrap;
+    }
+    .fk-search-box {
+        order: 3;
+        max-width: 100%;
+        width: 100%;
+        margin-top: 6px;
+    }
+    .fk-nav-actions {
+        gap: 12px;
+    }
+    .fk-login-btn {
+        padding: 4px 16px;
+        font-size: 13px;
+    }
+    .fk-footer-main {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}

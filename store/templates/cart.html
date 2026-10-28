@@ -1,0 +1,474 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart | RishiCart</title>
+    <link rel="stylesheet" href="{% static 'css/flipkart.css' %}">
+    <style>
+        .fk-cart-page {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 16px 12px 30px;
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        /* LEFT COLUMN */
+        .fk-cart-main {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* FLIPKART ADDRESS STRIP */
+        .fk-address-strip {
+            background: #ffffff;
+            padding: 12px 18px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        .fk-address-info strong {
+            color: #212121;
+        }
+
+        .fk-change-pin-btn {
+            color: #2874f0;
+            font-weight: 700;
+            border: 1px solid #e0e0e0;
+            background: #ffffff;
+            padding: 6px 14px;
+            border-radius: 2px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        /* CART ITEMS CONTAINER */
+        .fk-cart-items-card {
+            background: #ffffff;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .fk-cart-item {
+            padding: 24px;
+            border-bottom: 1px solid #f0f0f0;
+            display: grid;
+            grid-template-columns: 112px 1fr 180px;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .fk-cart-item-img-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .fk-cart-img {
+            width: 112px;
+            height: 112px;
+            object-fit: contain;
+        }
+
+        /* QUANTITY SELECTOR */
+        .fk-qty-selector {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .fk-qty-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1px solid #c2c2c2;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+            color: #212121;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .fk-qty-btn:hover {
+            border-color: #2874f0;
+            color: #2874f0;
+        }
+
+        .fk-qty-val {
+            width: 38px;
+            height: 28px;
+            border: 1px solid #c2c2c2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            background: #ffffff;
+        }
+
+        /* ITEM DETAILS */
+        .fk-cart-item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .fk-cart-item-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #212121;
+            text-decoration: none;
+            line-height: 1.35;
+        }
+
+        .fk-cart-item-title:hover {
+            color: #2874f0;
+        }
+
+        .fk-cart-seller {
+            font-size: 12px;
+            color: #878787;
+        }
+
+        .fk-cart-price-block {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin-top: 6px;
+        }
+
+        .fk-cart-item-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #212121;
+        }
+
+        .fk-cart-actions-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-top: 16px;
+        }
+
+        .fk-cart-action-link {
+            font-size: 14px;
+            font-weight: 700;
+            color: #212121;
+            text-decoration: none;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .fk-cart-action-link:hover {
+            color: #2874f0;
+        }
+
+        .fk-cart-action-link.remove:hover {
+            color: #d32f2f;
+        }
+
+        /* DELIVERY DATE */
+        .fk-cart-item-delivery {
+            font-size: 13px;
+            color: #212121;
+            text-align: right;
+        }
+
+        /* PLACE ORDER FOOTER (FLIPKART ORANGE) */
+        .fk-place-order-bar {
+            background: #ffffff;
+            box-shadow: 0 -2px 10px 0 rgba(0,0,0,.1);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            position: sticky;
+            bottom: 0;
+            z-index: 100;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .fk-btn-place-order {
+            background: #fb641b;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 14px 40px;
+            border-radius: 2px;
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,.2);
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            border: none;
+        }
+
+        .fk-btn-place-order:hover {
+            background: #e2540f;
+        }
+
+        /* RIGHT PRICE DETAILS CARD */
+        .fk-price-details-card {
+            background: #ffffff;
+            border-radius: 2px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: sticky;
+            top: 76px;
+        }
+
+        .fk-price-header {
+            padding: 14px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 14px;
+            font-weight: 700;
+            color: #878787;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .fk-price-body {
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            font-size: 14px;
+        }
+
+        .fk-price-row-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #212121;
+        }
+
+        .fk-price-total-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 17px;
+            font-weight: 700;
+            color: #212121;
+            border-top: 1px dashed #e0e0e0;
+            border-bottom: 1px dashed #e0e0e0;
+            padding: 16px 0;
+            margin-top: 4px;
+        }
+
+        .fk-savings-banner {
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #388e3c;
+            line-height: 1.4;
+        }
+
+        /* SAFE & SECURE BADGE */
+        .fk-safe-badge-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 12px;
+            font-size: 13px;
+            color: #878787;
+            line-height: 1.4;
+        }
+
+        /* EMPTY CART */
+        .fk-empty-cart {
+            background: #ffffff;
+            border-radius: 2px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            padding: 60px 20px;
+            text-align: center;
+            grid-column: 1 / -1;
+        }
+
+        .fk-empty-icon {
+            font-size: 80px;
+            margin-bottom: 16px;
+        }
+
+        @media (max-width: 850px) {
+            .fk-cart-page {
+                grid-template-columns: 1fr;
+            }
+            .fk-cart-item {
+                grid-template-columns: 80px 1fr;
+            }
+            .fk-cart-item-delivery {
+                grid-column: 1 / -1;
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- FLIPKART HEADER -->
+    {% include 'includes/fk_header.html' %}
+
+    <div class="fk-cart-page">
+
+        {% if cart_items %}
+        <!-- LEFT CART ITEMS -->
+        <main class="fk-cart-main">
+
+            <!-- ADDRESS STRIP -->
+            <div class="fk-address-strip">
+                <div class="fk-address-info">
+                    Deliver to: <strong>{{ user.first_name|default:user.username|title|default:"Customer" }}, 800001</strong>
+                </div>
+                <button type="button" class="fk-change-pin-btn" onclick="alert('Address will be confirmed at checkout.')">
+                    Change
+                </button>
+            </div>
+
+            <!-- ITEMS LIST -->
+            <div class="fk-cart-items-card">
+                {% for item in cart_items %}
+                <div class="fk-cart-item">
+
+                    <!-- IMAGE & QTY -->
+                    <div class="fk-cart-item-img-wrap">
+                        {% if item.product.image %}
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="fk-cart-img">
+                        {% else %}
+                        <div style="font-size: 60px; line-height: 112px;">🛍️</div>
+                        {% endif %}
+
+                        <!-- QTY BUTTONS -->
+                        <div class="fk-qty-selector">
+                            <a href="{% url 'decrease_cart' item.product.id %}" class="fk-qty-btn" title="Decrease Quantity">−</a>
+                            <div class="fk-qty-val">{{ item.quantity }}</div>
+                            <a href="{% url 'increase_cart' item.product.id %}" class="fk-qty-btn" title="Increase Quantity">+</a>
+                        </div>
+                    </div>
+
+                    <!-- DETAILS -->
+                    <div class="fk-cart-item-info">
+                        <a href="{% url 'product_detail' item.product.slug %}" class="fk-cart-item-title">
+                            {{ item.product.name }}
+                        </a>
+                        <div class="fk-cart-seller">
+                            Seller: RishiCart Retail <span class="fk-assured-pill">Assured</span>
+                        </div>
+
+                        {% if item.product.is_footwear %}
+                        <div style="font-size: 12px; color: #388e3c; font-weight: 600;">
+                            👟 Footwear Item (UK Size Standard)
+                        </div>
+                        {% endif %}
+
+                        <div class="fk-cart-price-block">
+                            <span class="fk-cart-item-price">₹{{ item.product.price }}</span>
+                            <span class="fk-original-price">₹{{ item.product.price|add:"500" }}</span>
+                            <span class="fk-discount-text">35% Off</span>
+                        </div>
+
+                        <!-- ACTIONS -->
+                        <div class="fk-cart-actions-row">
+                            <a href="{% url 'remove_from_cart' item.product.id %}" class="fk-cart-action-link remove">
+                                REMOVE
+                            </a>
+                            <span style="color:#dcdcdc;">|</span>
+                            <a href="{% url 'product_detail' item.product.slug %}" class="fk-cart-action-link">
+                                VIEW PRODUCT
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- DELIVERY ESTIMATE -->
+                    <div class="fk-cart-item-delivery">
+                        Delivery by <strong>Tomorrow, 11 PM</strong><br>
+                        <span style="color: #388e3c; font-weight: 600;">Free ₹40</span>
+                    </div>
+
+                </div>
+                {% endfor %}
+
+                <!-- BOTTOM PLACE ORDER BUTTON BAR -->
+                <div class="fk-place-order-bar">
+                    <a href="{% url 'checkout' %}" class="fk-btn-place-order">
+                        PLACE ORDER
+                    </a>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- RIGHT PRICE DETAILS -->
+        <aside class="fk-price-details-card">
+            <div class="fk-price-header">
+                PRICE DETAILS
+            </div>
+            <div class="fk-price-body">
+                <div class="fk-price-row-item">
+                    <span>Price ({{ cart_items|length }} item{% if cart_items|length > 1 %}s{% endif %})</span>
+                    <span>₹{{ total|add:"500" }}</span>
+                </div>
+                <div class="fk-price-row-item">
+                    <span>Discount</span>
+                    <span style="color: #388e3c;">− ₹500</span>
+                </div>
+                <div class="fk-price-row-item">
+                    <span>Delivery Charges</span>
+                    <span style="color: #388e3c;">FREE</span>
+                </div>
+                <div class="fk-price-row-item">
+                    <span>Packaging Fee</span>
+                    <span style="color: #388e3c;">FREE</span>
+                </div>
+
+                <div class="fk-price-total-row">
+                    <span>Total Amount</span>
+                    <span>₹{{ total }}</span>
+                </div>
+            </div>
+
+            <div class="fk-savings-banner">
+                You will save ₹500 on this order
+            </div>
+
+            <div class="fk-safe-badge-box">
+                <span style="font-size: 24px;">🛡️</span>
+                <span>Safe and Secure Payments. Easy returns. 100% Authentic products.</span>
+            </div>
+        </aside>
+
+        {% else %}
+        <!-- EMPTY CART STATE -->
+        <div class="fk-empty-cart">
+            <div class="fk-empty-icon">🛒</div>
+            <h2 style="font-size: 20px; font-weight: 600; color: #212121; margin-bottom: 8px;">Your Cart is Empty!</h2>
+            <p style="color: #878787; font-size: 14px; margin-bottom: 24px;">Explore our wide selection of products and grab the best deals today.</p>
+            <a href="{% url 'products' %}" class="fk-btn-place-order" style="padding: 12px 32px; background: #2874f0;">
+                Shop Now
+            </a>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <!-- FLIPKART FOOTER -->
+    {% include 'includes/fk_footer.html' %}
+
+</body>
+</html>

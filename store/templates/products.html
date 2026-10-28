@@ -1,0 +1,392 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Products Online at Best Prices in India | RishiCart</title>
+    <link rel="stylesheet" href="{% static 'css/flipkart.css' %}">
+    <style>
+        /* FLIPKART PRODUCTS LISTING LAYOUT */
+        .fk-listing-container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 8px 12px 24px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        /* LEFT SIDEBAR FILTERS */
+        .fk-filters-sidebar {
+            width: 270px;
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-radius: 2px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 68px;
+        }
+
+        .fk-filters-header {
+            padding: 14px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .fk-filters-header h3 {
+            font-size: 17px;
+            font-weight: 700;
+            color: #212121;
+        }
+
+        .fk-clear-btn {
+            font-size: 12px;
+            font-weight: 700;
+            color: #2874f0;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .fk-clear-btn:hover {
+            text-decoration: underline;
+        }
+
+        .fk-filter-block {
+            padding: 14px 16px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .fk-filter-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #212121;
+            margin-bottom: 10px;
+            letter-spacing: 0.3px;
+        }
+
+        .fk-filter-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .fk-filter-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #212121;
+            text-decoration: none;
+            padding: 4px 0;
+            transition: color 0.2s;
+        }
+
+        .fk-filter-item:hover,
+        .fk-filter-item.active {
+            color: #2874f0;
+            font-weight: 600;
+        }
+
+        .fk-filter-radio {
+            width: 15px;
+            height: 15px;
+            accent-color: #2874f0;
+        }
+
+        /* RIGHT PRODUCTS CONTENT */
+        .fk-products-content {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* BREADCRUMBS & TOP BAR */
+        .fk-top-bar-card {
+            background: #ffffff;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+            border-radius: 2px;
+            padding: 12px 16px;
+        }
+
+        .fk-breadcrumbs {
+            font-size: 12px;
+            color: #878787;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .fk-breadcrumbs a {
+            color: #878787;
+        }
+
+        .fk-breadcrumbs a:hover {
+            color: #2874f0;
+        }
+
+        .fk-result-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .fk-result-heading {
+            font-size: 16px;
+            font-weight: 600;
+            color: #212121;
+        }
+
+        .fk-result-count {
+            font-size: 12px;
+            color: #878787;
+            font-weight: 400;
+            margin-left: 8px;
+        }
+
+        /* SORT BAR */
+        .fk-sort-bar {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 14px;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .fk-sort-label {
+            font-weight: 700;
+            color: #212121;
+        }
+
+        .fk-sort-option {
+            color: #212121;
+            text-decoration: none;
+            padding-bottom: 2px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .fk-sort-option:hover,
+        .fk-sort-option.active {
+            color: #2874f0;
+            font-weight: 600;
+            border-bottom: 2px solid #2874f0;
+        }
+
+        /* PRODUCTS GRID */
+        .fk-products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 10px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 850px) {
+            .fk-listing-container {
+                flex-direction: column;
+            }
+            .fk-filters-sidebar {
+                width: 100%;
+                position: static;
+            }
+            .fk-products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- FLIPKART HEADER -->
+    {% include 'includes/fk_header.html' %}
+
+    <div class="fk-listing-container">
+
+        <!-- LEFT SIDEBAR FILTERS (FLIPKART STYLE) -->
+        <aside class="fk-filters-sidebar">
+            <div class="fk-filters-header">
+                <h3>Filters</h3>
+                {% if request.GET.category or request.GET.q %}
+                <a href="{% url 'products' %}" class="fk-clear-btn">CLEAR ALL</a>
+                {% endif %}
+            </div>
+
+            <!-- CATEGORIES -->
+            <div class="fk-filter-block">
+                <div class="fk-filter-title">Categories</div>
+                <div class="fk-filter-list">
+                    <a href="{% url 'products' %}{% if request.GET.q %}?q={{ request.GET.q }}{% endif %}" class="fk-filter-item {% if not request.GET.category %}active{% endif %}">
+                        <span>●</span> All Categories
+                    </a>
+                    {% for cat in categories %}
+                    <a href="{% url 'products' %}?category={{ cat.slug }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" class="fk-filter-item {% if request.GET.category == cat.slug %}active{% endif %}">
+                        <span>›</span> {{ cat.name }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- PRICE FILTER -->
+            <div class="fk-filter-block">
+                <div class="fk-filter-title">Price Range</div>
+                <div class="fk-filter-list">
+                    <label class="fk-filter-item">
+                        <input type="checkbox" class="fk-filter-radio" checked> Under ₹500
+                    </label>
+                    <label class="fk-filter-item">
+                        <input type="checkbox" class="fk-filter-radio" checked> ₹500 - ₹1,000
+                    </label>
+                    <label class="fk-filter-item">
+                        <input type="checkbox" class="fk-filter-radio" checked> ₹1,000 - ₹2,000
+                    </label>
+                    <label class="fk-filter-item">
+                        <input type="checkbox" class="fk-filter-radio" checked> Over ₹2,000
+                    </label>
+                </div>
+            </div>
+
+            <!-- CUSTOMER RATINGS -->
+            <div class="fk-filter-block">
+                <div class="fk-filter-title">Customer Ratings</div>
+                <div class="fk-filter-list">
+                    <label class="fk-filter-item">
+                        <input type="checkbox" class="fk-filter-radio"> 4★ & above
+                    </label>
+                    <label class="fk-filter-item">
+                        <input type="checkbox" class="fk-filter-radio"> 3★ & above
+                    </label>
+                </div>
+            </div>
+
+            <!-- ASSURED BADGE -->
+            <div class="fk-filter-block">
+                <div class="fk-filter-title">RishiCart Assured</div>
+                <label class="fk-filter-item">
+                    <input type="checkbox" class="fk-filter-radio" checked>
+                    <span class="fk-assured-pill">Assured</span> Plus Fast Delivery
+                </label>
+            </div>
+        </aside>
+
+        <!-- RIGHT PRODUCTS LIST -->
+        <main class="fk-products-content">
+
+            <!-- BREADCRUMBS & SORT BAR -->
+            <div class="fk-top-bar-card">
+                <div class="fk-breadcrumbs">
+                    <a href="{% url 'home' %}">Home</a>
+                    <span>›</span>
+                    {% if request.GET.category %}
+                    <a href="{% url 'products' %}">Products</a>
+                    <span>›</span>
+                    <span style="color: #212121; font-weight: 500;">{{ request.GET.category|title }}</span>
+                    {% else %}
+                    <span style="color: #212121; font-weight: 500;">All Products</span>
+                    {% endif %}
+                </div>
+
+                <div class="fk-result-header">
+                    <h1 class="fk-result-heading">
+                        {% if request.GET.q %}
+                        Results for "<span style="color: #2874f0;">{{ request.GET.q }}</span>"
+                        {% elif request.GET.category %}
+                        {{ request.GET.category|title }}
+                        {% else %}
+                        All Products
+                        {% endif %}
+                        <span class="fk-result-count">({{ products|length }} items)</span>
+                    </h1>
+                </div>
+
+                <!-- FLIPKART SORT BY -->
+                <div class="fk-sort-bar">
+                    <span class="fk-sort-label">Sort By</span>
+                    <span class="fk-sort-option active">Popularity</span>
+                    <span class="fk-sort-option">Price -- Low to High</span>
+                    <span class="fk-sort-option">Price -- High to Low</span>
+                    <span class="fk-sort-option">Newest First</span>
+                </div>
+            </div>
+
+            <!-- PRODUCT GRID -->
+            <div class="fk-products-grid">
+                {% for product in products %}
+                <a href="{% url 'product_detail' product.slug %}" class="fk-product-card">
+
+                    <div class="fk-card-img-wrap">
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="fk-card-img" loading="lazy">
+                        {% else %}
+                        <span style="font-size: 60px;">🛍️</span>
+                        {% endif %}
+                        <button type="button" class="fk-wishlist-btn" title="Add to Wishlist" onclick="event.preventDefault(); this.classList.toggle('active');">
+                            ♥
+                        </button>
+                    </div>
+
+                    <div class="fk-card-cat">
+                        {{ product.category.name|default:"General" }}
+                    </div>
+
+                    <div class="fk-card-title" title="{{ product.name }}">
+                        {{ product.name }}
+                    </div>
+
+                    <div class="fk-rating-badge">
+                        4.3 <span>★</span>
+                        <span class="fk-rating-count">(180)</span>
+                    </div>
+
+                    <div class="fk-price-row">
+                        <span class="fk-current-price">₹{{ product.price }}</span>
+                        <span class="fk-original-price">₹{{ product.price|add:"500" }}</span>
+                        <span class="fk-discount-text">40% off</span>
+                    </div>
+
+                    <div class="fk-delivery-tag">
+                        Free delivery
+                    </div>
+
+                    {% if product.is_footwear %}
+                    <div class="fk-assured-tag">
+                        <span class="fk-assured-pill">UK 6–12</span>
+                        <span style="font-size: 11px; color: #878787;">Footwear</span>
+                    </div>
+                    {% else %}
+                    <div class="fk-assured-tag">
+                        <span class="fk-assured-pill">Assured</span>
+                    </div>
+                    {% endif %}
+
+                </a>
+                {% empty %}
+                <div style="grid-column: 1 / -1; background: #ffffff; padding: 60px 20px; text-align: center; border-radius: 2px;">
+                    <div style="font-size: 60px; margin-bottom: 12px;">🔍</div>
+                    <h2 style="font-size: 20px; color: #212121; margin-bottom: 8px;">Sorry, no products found!</h2>
+                    <p style="color: #878787; margin-bottom: 20px;">Please check the spelling or try searching for something else.</p>
+                    <a href="{% url 'products' %}" class="fk-view-all-btn" style="padding: 10px 24px;">View All Products</a>
+                </div>
+                {% endfor %}
+            </div>
+
+        </main>
+
+    </div>
+
+    <!-- FLIPKART FOOTER -->
+    {% include 'includes/fk_footer.html' %}
+
+</body>
+</html>

@@ -1,0 +1,596 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Shopping Site for Mobiles, Electronics, Furniture, Grocery, Lifestyle, Books & More. Best Offers!</title>
+    <link rel="stylesheet" href="{% static 'css/flipkart.css' %}">
+    <style>
+        /* PAGE SPECIFIC FLIPKART HOME STYLES */
+        .fk-home-container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 10px;
+        }
+
+        /* FLIPKART BANNER SLIDER */
+        .fk-hero-slider {
+            position: relative;
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 12px;
+            overflow: hidden;
+            border-radius: 2px;
+        }
+
+        .fk-slide-track {
+            display: flex;
+            transition: transform 0.4s ease-in-out;
+            width: 100%;
+        }
+
+        .fk-slide {
+            min-width: 100%;
+            height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 30px 60px;
+            position: relative;
+            background: linear-gradient(135deg, #2874f0 0%, #0c4cb3 100%);
+            color: #ffffff;
+        }
+
+        .fk-slide.slide-2 {
+            background: linear-gradient(135deg, #ff6f00 0%, #e65100 100%);
+        }
+
+        .fk-slide.slide-3 {
+            background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+        }
+
+        .fk-slide-content {
+            max-width: 580px;
+            z-index: 2;
+        }
+
+        .fk-slide-tag {
+            background: #ffe500;
+            color: #111;
+            font-size: 12px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 2px;
+            display: inline-block;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .fk-slide-title {
+            font-size: 36px;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .fk-slide-subtitle {
+            font-size: 18px;
+            color: #ffe500;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .fk-slide-btn {
+            background: #ffffff;
+            color: #2874f0;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 10px 24px;
+            border-radius: 2px;
+            display: inline-block;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+
+        .fk-slide.slide-2 .fk-slide-btn {
+            color: #e65100;
+        }
+
+        .fk-slide.slide-3 .fk-slide-btn {
+            color: #1b5e20;
+        }
+
+        .fk-slide-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .fk-slide-graphic {
+            font-size: 140px;
+            line-height: 1;
+            opacity: 0.9;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.25));
+            user-select: none;
+        }
+
+        .fk-slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 90px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #212121;
+            cursor: pointer;
+            z-index: 5;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .fk-slider-arrow:hover {
+            background: #ffffff;
+            color: #2874f0;
+        }
+
+        .fk-slider-prev {
+            left: 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .fk-slider-next {
+            right: 0;
+            border-radius: 4px 0 0 4px;
+        }
+
+        /* FLIPKART DEALS SECTION (White box with header) */
+        .fk-section-card {
+            background: #ffffff;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            margin-bottom: 14px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .fk-section-header {
+            padding: 14px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .fk-section-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .fk-section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #212121;
+        }
+
+        .fk-timer {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: #878787;
+            font-weight: 500;
+        }
+
+        .fk-timer-icon {
+            color: #2874f0;
+        }
+
+        .fk-view-all-btn {
+            background: #2874f0;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px 20px;
+            border-radius: 2px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .fk-view-all-btn:hover {
+            background: #1b5ed4;
+        }
+
+        /* PRODUCT ROW / CAROUSEL */
+        .fk-product-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 12px;
+            padding: 16px;
+        }
+
+        /* FLIPKART TRUST STRIP */
+        .fk-trust-strip {
+            background: #ffffff;
+            border-radius: 2px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .fk-trust-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .fk-trust-icon {
+            font-size: 32px;
+            line-height: 1;
+        }
+
+        .fk-trust-text h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #212121;
+            margin-bottom: 2px;
+        }
+
+        .fk-trust-text p {
+            font-size: 12px;
+            color: #878787;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .fk-slide {
+                height: 220px;
+                padding: 20px 24px;
+            }
+            .fk-slide-title {
+                font-size: 24px;
+            }
+            .fk-slide-subtitle {
+                font-size: 14px;
+            }
+            .fk-slide-graphic {
+                font-size: 70px;
+            }
+            .fk-slider-arrow {
+                height: 50px;
+                width: 32px;
+                font-size: 18px;
+            }
+            .fk-product-row {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- FLIPKART HEADER -->
+    {% include 'includes/fk_header.html' %}
+
+    <main class="fk-home-container">
+
+        <!-- PROMOTIONAL HERO BANNER CAROUSEL -->
+        <section class="fk-hero-slider" id="fkHeroSlider">
+            <div class="fk-slide-track" id="fkSlideTrack">
+
+                <!-- SLIDE 1: FOOTWEAR & SHOES (Highlighting UK 6+ Sizes) -->
+                <div class="fk-slide slide-1">
+                    <div class="fk-slide-content">
+                        <span class="fk-slide-tag">MEGA FOOTWEAR FESTIVAL</span>
+                        <h1 class="fk-slide-title">Trending Shoes & Sneakers</h1>
+                        <p class="fk-slide-subtitle">Starting at ₹499 | UK Sizes 6 to 12 Available</p>
+                        <a href="{% url 'products' %}?category=footwear" class="fk-slide-btn">
+                            Explore Footwear →
+                        </a>
+                    </div>
+                    <div class="fk-slide-graphic">
+                        👟
+                    </div>
+                </div>
+
+                <!-- SLIDE 2: BIG SAVINGS ON FASHION & LIFESTYLE -->
+                <div class="fk-slide slide-2">
+                    <div class="fk-slide-content">
+                        <span class="fk-slide-tag">BIG SAVINGS DAY</span>
+                        <h2 class="fk-slide-title">Fashion, Watches & Bags</h2>
+                        <p class="fk-slide-subtitle">Min. 50% - 80% Off on Top Brands</p>
+                        <a href="{% url 'products' %}" class="fk-slide-btn">
+                            Shop Fashion Deals →
+                        </a>
+                    </div>
+                    <div class="fk-slide-graphic">
+                        👕
+                    </div>
+                </div>
+
+                <!-- SLIDE 3: ELECTRONICS & GADGETS -->
+                <div class="fk-slide slide-3">
+                    <div class="fk-slide-content">
+                        <span class="fk-slide-tag">ELECTRONICS BONANZA</span>
+                        <h2 class="fk-slide-title">Mobiles, Audio & Tech</h2>
+                        <p class="fk-slide-subtitle">Best Prices Guaranteed + Fast Free Delivery</p>
+                        <a href="{% url 'products' %}?category=electronics" class="fk-slide-btn">
+                            Grab Electronics Deals →
+                        </a>
+                    </div>
+                    <div class="fk-slide-graphic">
+                        🎧
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SLIDER ARROWS -->
+            <button class="fk-slider-arrow fk-slider-prev" onclick="moveSlide(-1)" aria-label="Previous">❮</button>
+            <button class="fk-slider-arrow fk-slider-next" onclick="moveSlide(1)" aria-label="Next">❯</button>
+        </section>
+
+        <!-- DEALS OF THE DAY -->
+        <section class="fk-section-card">
+            <div class="fk-section-header">
+                <div class="fk-section-title-wrap">
+                    <h2 class="fk-section-title">Deals of the Day</h2>
+                    <div class="fk-timer">
+                        <span class="fk-timer-icon">⏱️</span>
+                        <span id="countdownTimer">18h : 42m : 15s Left</span>
+                    </div>
+                </div>
+                <a href="{% url 'products' %}" class="fk-view-all-btn">
+                    VIEW ALL
+                </a>
+            </div>
+
+            <div class="fk-product-row">
+                {% for product in products|slice:":8" %}
+                <a href="{% url 'product_detail' product.slug %}" class="fk-product-card">
+
+                    <div class="fk-card-img-wrap">
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="fk-card-img" loading="lazy">
+                        {% else %}
+                        <span style="font-size: 60px;">🛍️</span>
+                        {% endif %}
+                        <button type="button" class="fk-wishlist-btn" title="Add to Wishlist" onclick="event.preventDefault(); this.classList.toggle('active');">
+                            ♥
+                        </button>
+                    </div>
+
+                    <div class="fk-card-cat">
+                        {{ product.category.name|default:"General" }}
+                    </div>
+
+                    <div class="fk-card-title" title="{{ product.name }}">
+                        {{ product.name }}
+                    </div>
+
+                    <div class="fk-rating-badge">
+                        4.3 <span>★</span>
+                        <span class="fk-rating-count">(128)</span>
+                    </div>
+
+                    <div class="fk-price-row">
+                        <span class="fk-current-price">₹{{ product.price }}</span>
+                        <span class="fk-original-price">₹{{ product.price|add:"499" }}</span>
+                        <span class="fk-discount-text">35% off</span>
+                    </div>
+
+                    <div class="fk-delivery-tag">
+                        Free delivery by <strong>Tomorrow</strong>
+                    </div>
+
+                    {% if product.is_footwear %}
+                    <div class="fk-assured-tag">
+                        <span class="fk-assured-pill">UK 6–12</span>
+                        <span style="font-size: 11px; color: #878787;">Footwear</span>
+                    </div>
+                    {% else %}
+                    <div class="fk-assured-tag">
+                        <span class="fk-assured-pill">Assured</span>
+                    </div>
+                    {% endif %}
+
+                </a>
+                {% empty %}
+                <div style="grid-column: 1 / -1; padding: 40px; text-align: center; color: #878787;">
+                    <h3>No products available right now.</h3>
+                    <p>Check back soon for exciting deals!</p>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- TOP FOOTWEAR & SHOES SECTION (Special focus on UK sizes) -->
+        <section class="fk-section-card">
+            <div class="fk-section-header">
+                <div class="fk-section-title-wrap">
+                    <h2 class="fk-section-title">Top Deals on Footwear & Shoes</h2>
+                    <span style="color: #388e3c; font-weight: 600; font-size: 13px;">UK Sizes (6, 7, 8, 9, 10, 11, 12)</span>
+                </div>
+                <a href="{% url 'products' %}?category=footwear" class="fk-view-all-btn">
+                    VIEW ALL
+                </a>
+            </div>
+
+            <div class="fk-product-row">
+                {% for product in products %}
+                    {% if product.is_footwear %}
+                    <a href="{% url 'product_detail' product.slug %}" class="fk-product-card">
+                        <div class="fk-card-img-wrap">
+                            {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="fk-card-img" loading="lazy">
+                            {% else %}
+                            <span style="font-size: 60px;">👟</span>
+                            {% endif %}
+                            <button type="button" class="fk-wishlist-btn" title="Add to Wishlist" onclick="event.preventDefault(); this.classList.toggle('active');">
+                                ♥
+                            </button>
+                        </div>
+                        <div class="fk-card-cat">{{ product.category.name|default:"Footwear" }}</div>
+                        <div class="fk-card-title">{{ product.name }}</div>
+                        <div class="fk-rating-badge">
+                            4.4 <span>★</span>
+                            <span class="fk-rating-count">(340)</span>
+                        </div>
+                        <div class="fk-price-row">
+                            <span class="fk-current-price">₹{{ product.price }}</span>
+                            <span class="fk-original-price">₹{{ product.price|add:"899" }}</span>
+                            <span class="fk-discount-text">45% off</span>
+                        </div>
+                        <div class="fk-delivery-tag">
+                            Free delivery • <strong>UK 6 to 12</strong>
+                        </div>
+                        <div class="fk-assured-tag">
+                            <span class="fk-assured-pill">Assured</span>
+                        </div>
+                    </a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if not products %}
+                <div style="grid-column: 1 / -1; padding: 30px; text-align: center; color: #878787;">
+                    Explore all categories to view more shoes and apparel.
+                </div>
+                {% endif %}
+            </div>
+        </section>
+
+        <!-- SUGGESTED FOR YOU / ALL PRODUCTS -->
+        <section class="fk-section-card">
+            <div class="fk-section-header">
+                <div class="fk-section-title-wrap">
+                    <h2 class="fk-section-title">Suggested For You</h2>
+                </div>
+                <a href="{% url 'products' %}" class="fk-view-all-btn">
+                    VIEW ALL
+                </a>
+            </div>
+
+            <div class="fk-product-row">
+                {% for product in products %}
+                <a href="{% url 'product_detail' product.slug %}" class="fk-product-card">
+                    <div class="fk-card-img-wrap">
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="fk-card-img" loading="lazy">
+                        {% else %}
+                        <span style="font-size: 60px;">🛍️</span>
+                        {% endif %}
+                        <button type="button" class="fk-wishlist-btn" title="Add to Wishlist" onclick="event.preventDefault(); this.classList.toggle('active');">
+                            ♥
+                        </button>
+                    </div>
+                    <div class="fk-card-cat">{{ product.category.name|default:"Trending" }}</div>
+                    <div class="fk-card-title">{{ product.name }}</div>
+                    <div class="fk-rating-badge">
+                        4.2 <span>★</span>
+                        <span class="fk-rating-count">(95)</span>
+                    </div>
+                    <div class="fk-price-row">
+                        <span class="fk-current-price">₹{{ product.price }}</span>
+                        <span class="fk-original-price">₹{{ product.price|add:"600" }}</span>
+                        <span class="fk-discount-text">40% off</span>
+                    </div>
+                    <div class="fk-delivery-tag">
+                        Free delivery by <strong>Tomorrow</strong>
+                    </div>
+                    <div class="fk-assured-tag">
+                        <span class="fk-assured-pill">Assured</span>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- FLIPKART TRUST STRIP -->
+        <section class="fk-trust-strip">
+            <div class="fk-trust-item">
+                <div class="fk-trust-icon">🛡️</div>
+                <div class="fk-trust-text">
+                    <h4>100% Genuine Products</h4>
+                    <p>Direct from verified brand partners</p>
+                </div>
+            </div>
+            <div class="fk-trust-item">
+                <div class="fk-trust-icon">⚡</div>
+                <div class="fk-trust-text">
+                    <h4>Express Delivery</h4>
+                    <p>Fast doorstep shipping with BlueDart</p>
+                </div>
+            </div>
+            <div class="fk-trust-item">
+                <div class="fk-trust-icon">🔄</div>
+                <div class="fk-trust-text">
+                    <h4>7 Days Easy Return</h4>
+                    <p>Hassle-free replacement guarantee</p>
+                </div>
+            </div>
+            <div class="fk-trust-item">
+                <div class="fk-trust-icon">💳</div>
+                <div class="fk-trust-text">
+                    <h4>Secure Payments</h4>
+                    <p>UPI, Cards, NetBanking & COD</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FLIPKART FOOTER -->
+    {% include 'includes/fk_footer.html' %}
+
+    <!-- JAVASCRIPT FOR CAROUSEL & TIMER -->
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll(".fk-slide");
+        const track = document.getElementById("fkSlideTrack");
+
+        function updateSlide() {
+            if (track && slides.length > 0) {
+                track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            }
+        }
+
+        function moveSlide(direction) {
+            if (slides.length === 0) return;
+            currentSlide = (currentSlide + direction + slides.length) % slides.length;
+            updateSlide();
+        }
+
+        // Auto-play banner every 4.5 seconds
+        setInterval(function() {
+            moveSlide(1);
+        }, 4500);
+
+        // Countdown timer simulation
+        let totalSeconds = 18 * 3600 + 42 * 60 + 15;
+        const timerElem = document.getElementById("countdownTimer");
+        setInterval(function() {
+            if (totalSeconds > 0) {
+                totalSeconds--;
+                const h = Math.floor(totalSeconds / 3600);
+                const m = Math.floor((totalSeconds % 3600) / 60);
+                const s = totalSeconds % 60;
+                if (timerElem) {
+                    timerElem.textContent = `${h}h : ${m.toString().padStart(2, '0')}m : ${s.toString().padStart(2, '0')}s Left`;
+                }
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

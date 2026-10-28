@@ -1,0 +1,390 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | RishiCart</title>
+    <link rel="stylesheet" href="{% static 'css/flipkart.css' %}">
+    <style>
+        .fk-checkout-page {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 16px 12px 30px;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .fk-checkout-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        /* FLIPKART ACCORDION STEP CARD */
+        .fk-step-card {
+            background: #ffffff;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .fk-step-header {
+            background: #2874f0;
+            color: #ffffff;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+
+        .fk-step-header.inactive {
+            background: #ffffff;
+            color: #878787;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .fk-step-num {
+            background: rgba(255,255,255,0.25);
+            width: 22px;
+            height: 22px;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .fk-step-header.inactive .fk-step-num {
+            background: #f0f0f0;
+            color: #2874f0;
+        }
+
+        .fk-step-body {
+            padding: 20px 24px;
+        }
+
+        /* FORM INPUTS */
+        .fk-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .fk-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .fk-form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .fk-form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #212121;
+        }
+
+        .fk-form-input {
+            height: 42px;
+            border: 1px solid #dcdcdc;
+            border-radius: 2px;
+            padding: 0 14px;
+            font-size: 14px;
+            color: #212121;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .fk-form-input:focus {
+            border-color: #2874f0;
+        }
+
+        textarea.fk-form-input {
+            height: 70px;
+            padding: 10px 14px;
+            resize: vertical;
+        }
+
+        /* PAYMENT OPTIONS */
+        .fk-payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .fk-pay-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 2px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .fk-pay-card:hover {
+            border-color: #2874f0;
+            background: #f9fbfd;
+        }
+
+        .fk-pay-card input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #2874f0;
+        }
+
+        .fk-pay-text h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #212121;
+            margin-bottom: 2px;
+        }
+
+        .fk-pay-text p {
+            font-size: 12px;
+            color: #878787;
+        }
+
+        .fk-btn-confirm {
+            background: #fb641b;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            padding: 14px 36px;
+            border-radius: 2px;
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,.2);
+            text-transform: uppercase;
+            cursor: pointer;
+            border: none;
+            letter-spacing: 0.5px;
+            width: 100%;
+        }
+
+        .fk-btn-confirm:hover {
+            background: #e2540f;
+        }
+
+        /* MESSAGES ALERT */
+        .fk-alert {
+            background: #ffebee;
+            color: #c62828;
+            padding: 12px 18px;
+            border-radius: 2px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 14px;
+            border-left: 4px solid #c62828;
+        }
+
+        @media (max-width: 850px) {
+            .fk-checkout-page {
+                grid-template-columns: 1fr;
+            }
+            .fk-form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- FLIPKART HEADER -->
+    {% include 'includes/fk_header.html' %}
+
+    <div class="fk-checkout-page">
+
+        <!-- LEFT ACCORDION CHECKOUT STEPS -->
+        <main class="fk-checkout-steps">
+
+            {% if messages %}
+            {% for message in messages %}
+            <div class="fk-alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            <!-- STEP 1: LOGIN -->
+            <section class="fk-step-card">
+                <div class="fk-step-header">
+                    <span class="fk-step-num">1</span>
+                    <span>LOGIN</span>
+                    <span style="margin-left: auto; font-size: 12px; font-weight: 600;">✓ Verified</span>
+                </div>
+                <div class="fk-step-body" style="padding: 14px 24px; font-size: 14px; color: #212121; display: flex; align-items: center; justify-content: space-between;">
+                    <div>
+                        <strong>{{ user.first_name|default:user.username|title }}</strong>
+                        <span style="color: #878787; margin-left: 10px;">{{ user.email|default:"customer@rishicart.com" }}</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CHECKOUT FORM -->
+            <form method="POST" action="{% url 'place_order' %}">
+                {% csrf_token %}
+
+                <!-- STEP 2: DELIVERY ADDRESS -->
+                <section class="fk-step-card">
+                    <div class="fk-step-header">
+                        <span class="fk-step-num">2</span>
+                        <span>DELIVERY ADDRESS</span>
+                    </div>
+                    <div class="fk-step-body">
+                        <div class="fk-form-grid">
+
+                            <div class="fk-form-group">
+                                <label class="fk-form-label" for="full_name">Full Name *</label>
+                                <input type="text" name="full_name" id="full_name" class="fk-form-input" placeholder="Enter Full Name" required value="{{ user.first_name|default:user.username|title }}">
+                            </div>
+
+                            <div class="fk-form-group">
+                                <label class="fk-form-label" for="phone">10-Digit Mobile Number *</label>
+                                <input type="tel" name="phone" id="phone" class="fk-form-input" placeholder="10-digit mobile number" maxlength="10" pattern="[0-9]{10}" required value="9876543210">
+                            </div>
+
+                            <div class="fk-form-group">
+                                <label class="fk-form-label" for="pincode">Pincode *</label>
+                                <input type="text" name="pincode" id="pincode" class="fk-form-input" placeholder="6 digits PIN code" maxlength="6" pattern="[0-9]{6}" required value="800001">
+                            </div>
+
+                            <div class="fk-form-group">
+                                <label class="fk-form-label" for="city">City / District *</label>
+                                <input type="text" name="city" id="city" class="fk-form-input" placeholder="City / Town" required value="Patna">
+                            </div>
+
+                            <div class="fk-form-group">
+                                <label class="fk-form-label" for="state">State *</label>
+                                <input type="text" name="state" id="state" class="fk-form-input" placeholder="State" required value="Bihar">
+                            </div>
+
+                            <div class="fk-form-group full">
+                                <label class="fk-form-label" for="address">Full Street Address (House No, Building, Street, Area) *</label>
+                                <textarea name="address" id="address" class="fk-form-input" placeholder="Enter complete delivery address" required>Boring Road, Near Crossing</textarea>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+                <!-- STEP 3: ORDER SUMMARY -->
+                <section class="fk-step-card" style="margin-top: 14px;">
+                    <div class="fk-step-header">
+                        <span class="fk-step-num">3</span>
+                        <span>ORDER SUMMARY</span>
+                        <span style="margin-left: auto; font-size: 12px; font-weight: 500;">{{ cart_items|length }} Item{% if cart_items|length > 1 %}s{% endif %}</span>
+                    </div>
+                    <div class="fk-step-body" style="padding: 10px 24px;">
+                        {% for item in cart_items %}
+                        <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f0f0f0;">
+                            <div style="display: flex; align-items: center; gap: 14px;">
+                                {% if item.product.image %}
+                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" style="width: 50px; height: 50px; object-fit: contain;">
+                                {% else %}
+                                <span style="font-size: 30px;">🛍️</span>
+                                {% endif %}
+                                <div>
+                                    <div style="font-size: 14px; font-weight: 600; color: #212121;">{{ item.product.name }}</div>
+                                    <div style="font-size: 12px; color: #878787;">Qty: {{ item.quantity }} × ₹{{ item.product.price }}</div>
+                                </div>
+                            </div>
+                            <div style="font-size: 15px; font-weight: 700; color: #212121;">
+                                ₹{{ item.subtotal }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section>
+
+                <!-- STEP 4: PAYMENT OPTIONS -->
+                <section class="fk-step-card" style="margin-top: 14px;">
+                    <div class="fk-step-header">
+                        <span class="fk-step-num">4</span>
+                        <span>PAYMENT OPTIONS</span>
+                    </div>
+                    <div class="fk-step-body">
+
+                        <div class="fk-payment-options">
+
+                            <!-- CASH ON DELIVERY -->
+                            <label class="fk-pay-card">
+                                <input type="radio" name="payment_method" value="COD" checked>
+                                <div class="fk-pay-text">
+                                    <h4>💵 Cash on Delivery (COD)</h4>
+                                    <p>Pay with cash or UPI at your doorstep upon delivery.</p>
+                                </div>
+                            </label>
+
+                            <!-- ONLINE PAYMENT (RAZORPAY) -->
+                            <label class="fk-pay-card">
+                                <input type="radio" name="payment_method" value="Online">
+                                <div class="fk-pay-text">
+                                    <h4>💳 Online Payment (Razorpay UPI / Cards / NetBanking)</h4>
+                                    <p>100% Secure online payment with instant order confirmation.</p>
+                                </div>
+                            </label>
+
+                        </div>
+
+                        <!-- SUBMIT BUTTON -->
+                        <button type="submit" class="fk-btn-confirm">
+                            CONFIRM ORDER
+                        </button>
+
+                    </div>
+                </section>
+
+            </form>
+
+        </main>
+
+        <!-- RIGHT PRICE DETAILS -->
+        <aside class="fk-price-details-card">
+            <div class="fk-price-header">
+                PRICE DETAILS
+            </div>
+            <div class="fk-price-body">
+                <div class="fk-price-row-item">
+                    <span>Price ({{ cart_items|length }} item{% if cart_items|length > 1 %}s{% endif %})</span>
+                    <span>₹{{ total|add:"500" }}</span>
+                </div>
+                <div class="fk-price-row-item">
+                    <span>Discount</span>
+                    <span style="color: #388e3c;">− ₹500</span>
+                </div>
+                <div class="fk-price-row-item">
+                    <span>Delivery Charges</span>
+                    <span style="color: #388e3c;">FREE</span>
+                </div>
+                <div class="fk-price-row-item">
+                    <span>Total Payable</span>
+                    <span style="font-weight: 700; font-size: 16px;">₹{{ total }}</span>
+                </div>
+            </div>
+            <div class="fk-savings-banner">
+                You will save ₹500 on this order
+            </div>
+            <div class="fk-safe-badge-box">
+                <span style="font-size: 24px;">🛡️</span>
+                <span>Safe and Secure Payments. 100% Authentic products guaranteed.</span>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- FLIPKART FOOTER -->
+    {% include 'includes/fk_footer.html' %}
+
+</body>
+</html>
